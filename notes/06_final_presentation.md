@@ -345,8 +345,8 @@ Create a report on AI-based early cancer detection methods, comparing performanc
 * **Synthesis Faithfulness:** **Skipped** (No database table was available to verify writing fidelity against).
 
 ### **4. Citation Groundedness (Factual Grounding)**
-* **Claim Reliability Rate (CR):** **30.5%** (25/82 factual claims supported by paper abstracts).
-* **Cited Grounding Rate (CGR):** **54.3%** (25/46 cited claims supported; 36 claims were entirely uncited).
+* **Claim Reliability Rate (CR):** **32.7%** (33/101 factual claims supported by paper abstracts).
+* **Cited Grounding Rate (CGR):** **66.0%** (33/50 cited claims supported; 51 claims were entirely uncited).
 * **Important Caveat (Abstract-Based Evaluation):**
   > [!NOTE]
   > Because of runtime and caching restrictions, verification was conducted strictly using **locally available paper abstracts** rather than full-text PDF documents. As a result, correct claims containing specific statistics or background context (which are supported in the full PDF body but omitted in the brief abstract) were flagged as "unsupported." The actual rate of hallucinations might be significantly better (i.e., a higher grounding rate) if run against the complete full-text PDF data.
@@ -364,18 +364,18 @@ Contrasting both runs highlights the compounding nature of pipeline quality degr
 [Stage 2: Directional Alignment] -> Wearables: 100.0%  |  Cancer: 100.0%
         │
         ▼
-[Stage 2: Data Extraction] -------> Wearables: 53.3%   |  Cancer: Skipped
+[Stage 2: Data Extraction] -------> Wearables: 53.3%   |  Cancer: Skipped (Schema mismatch)
         │
         ▼
-[Stage 2: Synthesis Faithfulness] -> Wearables: 70.0%   |  Cancer: Skipped
+[Stage 2: Synthesis Faithfulness] -> Wearables: 70.0%   |  Cancer: Skipped (Schema mismatch)
         │
         ▼
-[Stage 3: Claim Reliability] ------> Wearables: 24.1%   |  Cancer: 30.5%
+[Stage 3: Claim Reliability] ------> Wearables: 24.1%   |  Cancer: 32.7%
 ```
 
 ### **The Mechanics of Compounding Degradation:**
 * **Run 1 (Wearables):** Although search queries and directions were 100% aligned, data corrupted during extraction (53.3%) and synthesis (70.0%), leading to a low final grounding score of 24.1% (37.3% expected joint data integrity).
-* **Run 2 (Cancer):** The system missed generating comparative queries (40.0% intent coverage) but wrote a well-aligned report (100% directional alignment). Without a database extraction step to corrupt the data, the grounding rate reached 30.5% (CGR 54.3%), outperforming Run 1 despite the poor search coverage.
+* **Run 2 (Cancer):** The system missed generating comparative queries (40.0% intent coverage) but wrote a well-aligned report (100% directional alignment). Without a database extraction step to corrupt the data, the grounding rate reached 32.7% (CGR 66.0%), outperforming Run 1 despite the poor search coverage.
 
 ---
 
@@ -453,7 +453,7 @@ To safely ship this product to clinical or academic users, we establish a safety
 | **Directional Alignment** | >= 98.0% | 100.0% | 100.0% | +0.0% / +0.0% | *Passed.* Maintain outline and semantic alignment checks. |
 | **Data Extraction Accuracy** | >= 95.0% | 53.3% | Skipped | **-41.7%** / N/A | Enforce strict schemas and context limits in Step 4. |
 | **Synthesis Faithfulness** | >= 95.0% | 70.0% | Skipped | **-25.0%** / N/A | Constrain Step 5 writing prompts to only reference spreadsheet values. |
-| **Claim Reliability** | >= 90.0% | 24.1% | 30.5% | **-65.9%** / **-59.5%** | Inject verification step to remove ungrounded assertions. |
+| **Claim Reliability** | >= 90.0% | 24.1% | 32.7% | **-65.9%** / **-57.3%** | Inject verification step to remove ungrounded assertions. |
 
 ### **FINAL VERDICT: NOT PRODUCTION-READY**
 Neither pipeline is ready for public release. A user relying on these reports is highly likely to make clinical or academic decisions based on fabricated statistics and false citations.

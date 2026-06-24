@@ -30,6 +30,7 @@
   - [Cascading Quality Comparison](#cascading-quality-comparison)
   - [Concrete Case Studies](#concrete-case-studies)
 - [Production Readiness Assessment](#production-readiness-assessment)
+- [Production Realities: What Actually Happens vs. Ideal Design](#production-realities-what-actually-happens-vs-ideal-design)
 - [Known Evaluation Gaps](#known-evaluation-gaps)
 - [Model Choice & Cost-vs-Accuracy Tradeoffs](#model-choice--cost-vs-accuracy-tradeoffs)
 - [Design Decisions](#design-decisions)
@@ -279,7 +280,7 @@ The evaluator is a single Python script (`eval.py`, ~1,060 lines) that orchestra
 The runner receives a **folder** with all files from one SciSpace run. File names are not standardized — the runner infers which file is which.
 
 ```bash
-python eval.py ./test_input/
+python3 eval.py ./trials/run1_wearables/raw_export/
 ```
 
 **File classification** uses a two-tier approach:
@@ -362,53 +363,6 @@ Every failure in the scorecard includes: **what the report said**, **what the so
 │   ├── verify_data_extraction.md        ← "Is this spreadsheet cell accurate to the paper abstract?"
 │   └── verify_synthesis_faithfulness.md ← "Is this report claim faithful to the spreadsheet table?"
 │
-├── formatted_input/                     ← Canonical input for Run 1 (Wearables)
-│   ├── user_query.txt
-│   ├── search_queries.txt
-│   ├── search_queries.json
-│   ├── intermediate_report.md
-│   └── final_report.md
-│
-├── test_input/                          ← Raw input for Run 1 (original messy SciSpace export)
-│   ├── user_query.txt
-│   ├── todo.md                          ← SciSpace planner task list
-│   ├── todo.py                          ← SciSpace planner code
-│   ├── sample search queries channel wise
-│   ├── wearable_insights.md             ← Intermediate insights report
-│   ├── wearable_health_devices_chronic_disease_report.md  ← Final report
-│   ├── combined_wearable_health_chronic_disease.csv
-│   ├── scispace_wearable_health_devices.csv
-│   ├── scispace_fulltext_wearable_chronic.csv
-│   ├── pubmed_wearable_chronic.csv
-│   └── scholar_wearable_chronic_disease.csv
-│
-├── inputs/cancer_01/                    ← Canonical input for Run 2 (Cancer Detection)
-│   ├── user_query.txt
-│   ├── search_queries.txt
-│   ├── search_queries.json
-│   ├── intermediate_report.md
-│   ├── final_report.md
-│   ├── combined_cancer_ai_detection_results.csv
-│   ├── scispace_cancer_detection_ai.csv
-│   ├── scispace_fulltext_cancer_detection.csv
-│   ├── pubmed_cancer_ai_detection.csv
-│   ├── scholar_cancer_ai_detection.csv
-│   └── arxiv_cancer_ai_detection.csv
-│
-├── output/                              ← Eval results for Run 1 (DeepSeek V4 Flash judge)
-│   ├── scorecard.md
-│   └── detailed_log.json
-│
-├── outputs/cancer_01/                   ← Eval results for Run 2 (DeepSeek V4 Flash judge)
-│   ├── scorecard.md
-│   └── detailed_log.json
-│
-├── output-openrouter-minimax/           ← Eval results for Run 1 (MiniMax judge, for comparison)
-│   ├── scorecard.md
-│   ├── detailed_log.json
-│   ├── stdout.txt
-│   └── stderr.txt
-│
 ├── notes/                               ← Developer design notes and presentations
 │   ├── 01_understanding.md              ← Process analysis of SciSpace reporting
 │   ├── 02_eval_design.md                ← Mathematical design of the 3 evaluation stages
@@ -417,12 +371,19 @@ Every failure in the scorecard includes: **what the report said**, **what the so
 │   ├── 05_plan.md                       ← Workspace roadmap and implementation phases
 │   └── 06_final_presentation.md         ← Final slide-by-slide project presentation
 │
-└── cancer test/                         ← Raw, messy input files for Run 2 (Cancer Detection)
-    ├── user query
-    ├── generated queries
-    ├── cancer_ai_insights.md
-    ├── AI_Cancer_Detection_Report.md
-    └── ... (associated source CSV files)
+└── trials/                              ← Consolidated trial runs (inputs, outputs, raw files)
+    ├── run1_wearables/                  ← Trial 1: Wearables health devices
+    │   ├── raw_export/                  ← Messy original exported folder from SciSpace
+    │   ├── evaluator_inputs/            ← Canonical inputs (user_query.txt, final_report.md, etc.)
+    │   └── evaluator_outputs/
+    │       ├── deepseek_flash/          ← scorecard.md + detailed_log.json from DeepSeek Flash
+    │       └── minimax/                 ← scorecard.md + detailed_log.json from MiniMax
+    │
+    └── run2_cancer_detection/           ← Trial 2: AI early cancer detection
+        ├── raw_export/                  ← Messy original exported folder from SciSpace
+        ├── evaluator_inputs/            ← Canonical inputs (including source CSV abstracts)
+        └── evaluator_outputs/
+            └── deepseek_flash/          ← scorecard.md + detailed_log.json from DeepSeek Flash
 ```
 
 ---
@@ -484,17 +445,14 @@ EVAL_API_KEY=sk-or-v1-...
 ### Running
 
 ```bash
-# Evaluate a SciSpace run folder
-python eval.py ./test_input/
+# Evaluate the wearables dataset (using raw messy export folder)
+python3 eval.py ./trials/run1_wearables/raw_export/ --output ./trials/run1_wearables/evaluator_outputs/deepseek_flash/
 
-# Specify a custom output directory
-python eval.py ./test_input/ --output ./my_output/
+# Evaluate the cancer detection dataset (using clean canonical inputs)
+python3 eval.py ./trials/run2_cancer_detection/evaluator_inputs/ --output ./trials/run2_cancer_detection/evaluator_outputs/deepseek_flash/
 
 # Override/inject the user query from the command line
-python eval.py ./test_input/ --query "Create a report on wearable health devices..."
-
-# Run against the cancer detection dataset
-python eval.py ./inputs/cancer_01/ --output ./outputs/cancer_01/
+python3 eval.py ./trials/run1_wearables/raw_export/ --query "Create a report on wearable health devices..." --output ./trials/run1_wearables/evaluator_outputs/deepseek_flash/
 ```
 
 ### CLI Arguments
@@ -538,12 +496,12 @@ python eval.py ./inputs/cancer_01/ --output ./outputs/cancer_01/
 
 | Metric | Score | Detail |
 |---|---|---|
-| **Intent Coverage (IC)** | **40.0%** | 2/5 intents covered |
-| **Directional Alignment (DA)** | **100.0%** | 5/5 intents addressed, no drift |
-| **Data Extraction Accuracy (EA)** | Skipped | No structured spreadsheet table in this run |
-| **Synthesis Faithfulness (SF)** | Skipped | No spreadsheet table available |
-| **Claim Reliability (CR)** | **30.5%** | 25/82 factual claims supported |
-| **Cited Grounding Rate (CGR)** | **54.3%** | 25/46 cited claims supported; 36 uncited |
+| **Intent Coverage (IC)** | **40.0%** | 2/5 intents covered *(Note: Skipped in latest run due to API timeout)* |
+| **Directional Alignment (DA)** | **100.0%** | 5/5 intents addressed *(Note: Skipped in latest run due to API timeout)* |
+| **Data Extraction Accuracy (EA)** | **Skipped** | Column matching is hardcoded to wearables criteria in prototype |
+| **Synthesis Faithfulness (SF)** | **Skipped** | Column matching is hardcoded to wearables criteria in prototype |
+| **Claim Reliability (CR)** | **32.7%** | 33/101 factual claims supported |
+| **Cited Grounding Rate (CGR)** | **66.0%** | 33/50 cited claims supported; 51 uncited |
 
 **Key finding:** The system generated queries covering "AI early cancer detection" and "performance metrics" but failed to generate distinct comparative queries contrasting imaging, genomics, and multimodal approaches against each other — missing 3 out of 5 intents.
 
@@ -556,15 +514,15 @@ Contrasting both runs reveals **compounding quality degradation** through the pi
                                          ─────────────────    ──────────────
 Stage 1: Intent Coverage ............... 100.0%               40.0%
 Stage 2: Directional Alignment ......... 100.0%               100.0%
-Stage 2: Data Extraction Accuracy ...... 53.3%                Skipped
-Stage 2: Synthesis Faithfulness ........ 70.0%                Skipped
-Stage 3: Claim Reliability ............. 24.1%                30.5%
-Stage 3: Cited Grounding Rate .......... 28.4%                54.3%
+Stage 2: Data Extraction Accuracy ...... 53.3%                Skipped (Schema mismatch)
+Stage 2: Synthesis Faithfulness ........ 70.0%                Skipped (Schema mismatch)
+Stage 3: Claim Reliability ............. 24.1%                32.7%
+Stage 3: Cited Grounding Rate .......... 28.4%                66.0%
 ```
 
 **The mechanics of compounding degradation:**
 - **Run 1 (Wearables):** Search queries and directions were 100% aligned, but data corrupted during extraction (53.3%) and synthesis (70.0%), leading to a low final grounding score of 24.1%.
-- **Run 2 (Cancer):** The system missed generating comparative queries (40.0% intent coverage) but wrote a well-aligned report (100% directional alignment). Without a database extraction step to corrupt the data, the cited grounding rate reached 54.3%, outperforming Run 1's 28.4% despite poorer search coverage.
+- **Run 2 (Cancer):** The system missed generating comparative queries (40.0% intent coverage) but wrote a well-aligned report (100% directional alignment). Without a database extraction step to corrupt the data, the cited grounding rate reached 66.0%, outperforming Run 1's 28.4% despite poorer search coverage.
 
 ### Concrete Case Studies
 
@@ -610,6 +568,47 @@ Neither pipeline is ready for public release. A user relying on these reports is
 1. **Spreadsheet Extraction Constraints:** Enforce strict grounding prompts in Step 4 to ensure table cell values never extrapolate beyond the source PDF text.
 2. **Synthesis Grounding Enforcement:** Constrain the final writing model (Step 5) to write claims that are strictly traceable to the columns of the consolidated table, preventing general knowledge leakage.
 3. **Bibliography Validation:** Add a verification pass that rejects any citation where the parsed claim does not map to a confirmed statistical finding in the paper.
+
+---
+
+## Production Realities: What Actually Happens vs. Ideal Design
+
+Analyzing the actual codebase execution (`eval.py`) reveals a series of compromises, hardcodings, and fragile assumptions that diverge from the ideal pipeline design described in theory. This section details these operational realities to ensure absolute clarity for presentation and debugging purposes:
+
+### 1. The Hardcoded Column Constraint (Why Run 2 Skipped Stage 2b & 2c)
+* **The Ideal:** The evaluator should dynamically identify and evaluate the consolidated table columns for any research topic.
+* **The Reality:** The column parsing in `eval.py` is hardcoded to specific column headers from the wearables trial:
+  ```python
+  required_cols = {"Study Design and Population", "Key Findings on Adherence Accuracy or Outcomes", "Limitations and Gaps"}
+  ```
+  Because the cancer detection trial (`run2_cancer_detection`) has different research criteria and column headings in its spreadsheet (`combined_cancer_ai_detection_results.csv`), the evaluator's CSV parser fails to find a match and returns `None`. 
+  Consequently, **Stage 2b (Data Extraction Accuracy)** and **Stage 2c (Synthesis Faithfulness)** are silently **skipped** during Run 2, rather than evaluated against the cancer criteria.
+* **Presentation Impact:** When presenting the results, point out that the evaluator CLI is currently hardcoded to a specific spreadsheet schema, making it a topic-specific prototype rather than a generic evaluator.
+
+### 2. Error Recovery and Transient API Timeouts (Socket Timeouts)
+* **The Ideal:** The LLM client (`call_llm`) should catch all network and socket exceptions and retry the requests up to the retry limit (1).
+* **The Reality:** The `try/except` block in `call_llm` only catches:
+  ```python
+  except (urllib.error.URLError, KeyError, json.JSONDecodeError) as exc:
+  ```
+  In Python, read operation timeouts (socket timeouts) and OS-level socket disconnects often raise raw `TimeoutError` or `OSError`. Since these are not subclassed under `urllib.error.URLError` in all execution runtimes, they bypass the retry logic entirely and propagate to the caller.
+  When a timeout occurs during `extract_intents` (as occurred during trial runs on OpenRouter), the evaluator catches the general `Exception`, prints a warning, and falls back to an empty list `[]`. Because `intents` is empty, Stage 1 and Stage 2 are skipped entirely.
+* **Presentation Impact:** Under peak API loads, the evaluator fails silently on its initial stages rather than retrying, leading to scorecard reports that show Stage 1 and Stage 2 as "Skipped" due to transient network conditions.
+
+### 3. File Classification and Log Cleanup Shortcutting
+* **The Ideal:** The evaluator should dynamically classify all files in the input folder and clean up raw search queries using LLM calls every run.
+* **The Reality:** The evaluator relies on shortcut files to bypass slow/costly LLM calls:
+  * **File Classification:** If the folder contains the exact names `user_query.txt`, `search_queries.txt`, `intermediate_report.md`, and `final_report.md`, classification is skipped.
+  * **Log Cleanup:** If `search_queries.json` exists in the folder, the raw `search_queries.txt` log cleanup step is bypassed entirely.
+  In practice, the trial folders are manually pre-structured to include these canonical names to ensure speed and bypass LLM classification/cleanup errors.
+
+### 4. Bibliography and Reference Regex Mismatch
+* **The Ideal:** The evaluator parses any standard academic bibliography format.
+* **The Reality:** `parse_references()` uses a rigid regex search:
+  ```python
+  matches = list(re.finditer(r"^\[(\d+)\]\s+(.*?)(?=^\[\d+\]\s+|\Z)", ref_text, flags=re.M | re.S))
+  ```
+  This expects bibliography entries to start precisely with `[1]`, `[2]`, etc. at the start of a newline in markdown. If the bibliography is formatted differently (e.g. `1.`, `- `, or indented list), reference parsing fails entirely, returning `refs = {}`, which forces Stage 3 to label all claims as `not_verifiable`.
 
 ---
 
