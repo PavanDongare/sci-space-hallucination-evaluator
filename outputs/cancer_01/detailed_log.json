@@ -1,0 +1,1487 @@
+{
+  "status": "complete",
+  "classification": {
+    "user_query": "user_query.txt",
+    "search_queries": "search_queries.txt",
+    "intermediate_report": "intermediate_report.md",
+    "final_report": "final_report.md"
+  },
+  "search_queries": [
+    {
+      "channel": "SciSpace",
+      "query": "What are the AI-based approaches for early cancer detection using imaging and genomics with performance metrics like AUC, sensitivity, and specificity in multimodal systems?"
+    },
+    {
+      "channel": "SciSpace Full Text",
+      "query": "AI early cancer detection AUC sensitivity specificity imaging genomics multimodal deep learning machine learning performance comparison"
+    },
+    {
+      "channel": "Google Scholar",
+      "query": "(artificial intelligence OR AI OR \"deep learning\" OR \"machine learning\") AND (\"early cancer detection\" OR \"cancer screening\") AND (AUC OR sensitivity OR specificity OR \"performance metrics\") AND (imaging OR genomics OR multimodal OR \"multi-modal\")"
+    },
+    {
+      "channel": "PubMed",
+      "query": "(artificial intelligence[Title/Abstract] OR deep learning[Title/Abstract] OR machine learning[Title/Abstract]) AND (early detection of cancer[MeSH] OR cancer screening[Title/Abstract] OR early cancer detection[Title/Abstract]) AND (AUC[Title/Abstract] OR sensitivity[Title/Abstract] OR specificity[Title/Abstract]) AND (imaging[Title/Abstract] OR genomics[Title/Abstract] OR multimodal[Title/Abstract])"
+    },
+    {
+      "channel": "arXiv",
+      "query": "all:artificial+intelligence+AND+all:cancer+detection+AND+all:AUC+AND+(all:imaging+OR+all:genomics+OR+all:multimodal)"
+    }
+  ],
+  "intents": [],
+  "stage1": null,
+  "stage2": null,
+  "stage3": [
+    {
+      "claim_text": "Large-scale deployment studies and head-to-head comparisons with radiologists have been reported, particularly in breast and lung cancer screening.",
+      "citation_ids": [
+        1,
+        2,
+        3
+      ],
+      "verdict": "supported",
+      "reason": "Source 2 is a systematic review comparing AI and radiologists for lung nodule detection, and Source 3 evaluates an AI system for breast cancer screening that outperforms radiologists, directly supporting the claim of head-to-head comparisons in both cancer types.",
+      "source_says": "Source 2: 'This systematic review compares the diagnostic accuracy... of AI algorithms and radiologists in identifying lung nodules'; Source 3: 'an AI system... outperformed all of the human readers'."
+    },
+    {
+      "claim_text": "Breast cancer detection using mammography plus ultrasound multimodal imaging with deep learning fusion achieved an AUC of 0.968.",
+      "citation_ids": [
+        5
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the multimodal classification model achieved an AUC of 0.968 (95% CI:0.947-0.989), which matches the claim.",
+      "source_says": "AUC (0.968 (95% CI:0.947-0.989))"
+    },
+    {
+      "claim_text": "Breast cancer detection using mammography plus ultrasound multimodal imaging with deep learning fusion achieved a specificity of 96.41%.",
+      "citation_ids": [
+        5
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the multimodal classification model achieved a specificity of 96.41%.",
+      "source_says": "Experimental results demonstrate that the multimodal classification model outperforms single-modal models in terms of specificity (96.41% (95% CI:93.10%-99.72%))"
+    },
+    {
+      "claim_text": "AI CAD applied to longitudinal screening mammography achieved AUC of 0.63–0.67.",
+      "citation_ids": [
+        6
+      ],
+      "verdict": "supported",
+      "reason": "The source states that for all time points combined, excluding screen detection, the AUC ranged from 0.63 to 0.67 for the three AI CAD systems.",
+      "source_says": "For all time points combined, excluding screen detection, the area under the receiver operating characteristic curve (AUC) ranged from 0.63 to 0.67 for the three AI CAD systems"
+    },
+    {
+      "claim_text": "AI CAD applied to longitudinal screening mammography achieved sensitivity of 13–25% for pre-diagnostic detection.",
+      "citation_ids": [
+        6
+      ],
+      "verdict": "supported",
+      "reason": "The source reports proportions of cancers flagged at 90% specificity for various years before diagnosis, ranging from 12.7% to 25.2%, which matches the claim's 13–25% sensitivity range for pre-diagnostic detection.",
+      "source_says": "At 90% specificity, the proportion of cancers potentially flagged by AI-1, AI-2, and AI-3 was 12.7%, 13.8%, and 17.0% at 10 years before diagnosis; 19.0%, 19.6%, and 19.7% at 6 years; and 24.2%, 23.3%, and 25.2% at 4 years."
+    },
+    {
+      "claim_text": "AI CAD applied to longitudinal screening mammography achieved specificity fixed at 90%.",
+      "citation_ids": [
+        6
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the AI CAD systems were evaluated at a fixed 90% specificity, reporting proportions of cancers flagged at that threshold.",
+      "source_says": "At 90% specificity, the proportion of cancers potentially flagged by AI-1, AI-2, and AI-3 was ..."
+    },
+    {
+      "claim_text": "CNN ensemble applied to prostate mpMRI achieved median AUC of 0.88.",
+      "citation_ids": [
+        4
+      ],
+      "verdict": "unsupported",
+      "reason": "The source states that AI-based technologies achieved a median AUC-ROC of 0.88, but it does not specify that a CNN ensemble was used or that this result is specifically from a CNN ensemble applied to prostate mpMRI.",
+      "source_says": "AI-based technologies achieved a median AUC-ROC of 0.88 (range 0.70–0.93)"
+    },
+    {
+      "claim_text": "CNN ensemble applied to prostate mpMRI achieved median sensitivity of 86%.",
+      "citation_ids": [
+        4
+      ],
+      "verdict": "unsupported",
+      "reason": "The source does not mention CNN ensemble; it only reports a median sensitivity of 86% for AI-based technologies broadly.",
+      "source_says": "AI-based technologies achieved median sensitivity of 0.86."
+    },
+    {
+      "claim_text": "CNN ensemble applied to prostate mpMRI achieved median specificity of 83%.",
+      "citation_ids": [
+        4
+      ],
+      "verdict": "supported",
+      "reason": "The source states that AI-based technologies achieved a median specificity of 0.83, which directly matches the claim's median specificity of 83%.",
+      "source_says": "AI-based technologies achieved a median AUC-ROC of 0.88 (range 0.70–0.93), with median sensitivity and specificity of 0.86 and 0.83, respectively."
+    },
+    {
+      "claim_text": "CNN-based lung CT nodule detection improved sensitivity compared to baseline.",
+      "citation_ids": [
+        2
+      ],
+      "verdict": "supported",
+      "reason": "The source states that AI models, which include CNNs, achieved higher sensitivity in lung nodule detection, directly supporting the claim of improvement over baseline.",
+      "source_says": "AI models achieved higher sensitivity, especially with nodules <6mm"
+    },
+    {
+      "claim_text": "Deep learning mammography for international breast screening was non-inferior to radiologists.",
+      "citation_ids": [
+        3
+      ],
+      "verdict": "supported",
+      "reason": "The source states that in a simulation of double-reading, the AI system maintained non-inferior performance compared to radiologists, and the evaluation used data from the UK and USA, supporting the claim of non-inferiority for international breast screening.",
+      "source_says": "the AI system maintained non-inferior performance and reduced the workload of the second reader by 88%"
+    },
+    {
+      "claim_text": "Deep learning mammography reduced reader workload.",
+      "citation_ids": [
+        3
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the AI system reduced the workload of the second reader by 88% in a simulation of the double-reading process.",
+      "source_says": "the AI system maintained non-inferior performance and reduced the workload of the second reader by 88%"
+    },
+    {
+      "claim_text": "Direct comparison with radiologist performance is available for imaging-based AI.",
+      "citation_ids": [
+        3
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the AI system outperformed all six radiologists in an independent study, providing a direct comparison with radiologist performance.",
+      "source_says": "In an independent study of six radiologists, the AI system outperformed all of the human readers"
+    },
+    {
+      "claim_text": "Regulatory-cleared AI tools exist, including FDA-cleared CAD systems.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Dataset heterogeneity across scanners, institutions, and annotation protocols reduces generalizability of imaging-based AI.",
+      "citation_ids": [
+        4,
+        2
+      ],
+      "verdict": "supported",
+      "reason": "The first source explicitly states that 'methodological heterogeneity and limited standardization restrict generalizability', which directly supports the claim about dataset heterogeneity reducing generalizability.",
+      "source_says": "methodological heterogeneity and limited standardization restrict generalizability"
+    },
+    {
+      "claim_text": "False positives remain a persistent challenge in imaging-based AI, leading to specificity variability.",
+      "citation_ids": [
+        2,
+        6
+      ],
+      "verdict": "supported",
+      "reason": "The first source states that AI models achieved higher sensitivity but 'specificity remained variable', which directly supports the claim that false positives remain a challenge leading to specificity variability.",
+      "source_says": "AI models achieved higher sensitivity... however, specificity remained variable."
+    },
+    {
+      "claim_text": "There is limited prospective validation of imaging-based AI in real-world screening workflows.",
+      "citation_ids": [
+        4,
+        3
+      ],
+      "verdict": "supported",
+      "reason": "Both sources indicate that prospective validation in real-world screening is lacking: the prostate review calls for large-scale prospective trials, and the breast cancer study is retrospective and paves the way for future clinical trials.",
+      "source_says": "Prostate review: 'Large-scale prospective trials are required to validate clinical integration.' Breast paper: 'paves the way for clinical trials to improve the accuracy and efficiency of breast cancer screening.'"
+    },
+    {
+      "claim_text": "Imaging-based AI performance degrades for rare cancers with limited training data.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics-based AI approaches are promising for multi-cancer early detection because they are non-invasive and cancer-type agnostic.",
+      "citation_ids": [
+        10
+      ],
+      "verdict": "supported",
+      "reason": "The source describes MCED tests as minimally invasive and capable of detecting multiple cancers simultaneously, which aligns with the claim's 'non-invasive' and 'cancer-type agnostic' attributes, and states they have 'great potential'.",
+      "source_says": "MCED tests combine molecular analysis of tumor-related markers in body fluids with AI to simultaneously detect a variety of cancers, are minimally invasive, and depict great potential for clinical application."
+    },
+    {
+      "claim_text": "ML spectral classifier on SERS serum artificial nose achieved 100% sensitivity for NSCLC detection.",
+      "citation_ids": [
+        9
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the model achieves 100% sensitivity for NSCLC detection.",
+      "source_says": "Using an optimized multireceptor array, the model achieves 100% sensitivity at 98% specificity"
+    },
+    {
+      "claim_text": "ML spectral classifier on SERS serum artificial nose achieved 98% specificity for NSCLC detection.",
+      "citation_ids": [
+        9
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the model achieves 98% specificity for NSCLC detection.",
+      "source_says": "the model achieves 100% sensitivity at 98% specificity"
+    },
+    {
+      "claim_text": "1D-CNN + LSTM on urine proteomics achieved AUC 0.98 for pancreatic cancer detection.",
+      "citation_ids": [
+        8
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the 1D-CNN + LSTM model achieved an AUC of 98% for diagnosing pancreatic cancer using urine biomarkers.",
+      "source_says": "the area under curve (AUC) of 98%"
+    },
+    {
+      "claim_text": "1D-CNN + LSTM on urine proteomics achieved 97% accuracy for pancreatic cancer detection.",
+      "citation_ids": [
+        8
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the 1-D CNN + LSTM model achieved 97% accuracy for diagnosing pancreatic cancers using urine biomarkers.",
+      "source_says": "our proposed 1-D CNN + LSTM model achieved the best accuracy score of 97%"
+    },
+    {
+      "claim_text": "Ensemble ML on blood cfDNA/methylation achieved AUC up to 0.993 for multi-cancer detection.",
+      "citation_ids": [
+        11
+      ],
+      "verdict": "unsupported",
+      "reason": "The source reports a maximum AUC of 0.9929 across all studies but does not mention 'Ensemble ML on blood cfDNA/methylation' or 'multi-cancer detection' specifically.",
+      "source_says": "The maximum values of the assessment indicators such as ... area under the curve (AUC) in included studies were ... 0.9929"
+    },
+    {
+      "claim_text": "Genomic/omics AI meta-analysis reported AUC range approximately 0.90–0.993.",
+      "citation_ids": [
+        11
+      ],
+      "verdict": "unsupported",
+      "reason": "The source reports a maximum AUC of 0.9929, not a range of approximately 0.90–0.993 as claimed.",
+      "source_says": "The maximum values of the assessment indicators such as ... area under the curve (AUC) in included studies were ... 0.9929"
+    },
+    {
+      "claim_text": "Very high AUCs (>0.99) in genomics studies often reflect small, homogeneous cohorts with potential overfitting.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics-based AI can detect molecular alterations before imaging-detectable lesions.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Small cohort sizes and risk of overfitting are concerns in high-performance genomics AI reports.",
+      "citation_ids": [
+        10,
+        11
+      ],
+      "verdict": "unsupported",
+      "reason": "Neither source mentions small cohort sizes or risk of overfitting in high-performance genomics AI reports.",
+      "source_says": "Source 10 discusses lack of large-scale clinical validation studies for MCED tests; Source 11 reviews AI techniques in precision medicine without addressing cohort sizes or overfitting."
+    },
+    {
+      "claim_text": "Most blood-based multi-cancer early detection tests are not yet clinically validated at population scale.",
+      "citation_ids": [
+        10
+      ],
+      "verdict": "supported",
+      "reason": "The source states that 'large-scale clinical validation studies are still lacking' for MCED tests, which directly supports the claim that most are not yet clinically validated at population scale.",
+      "source_says": "large-scale clinical validation studies are still lacking"
+    },
+    {
+      "claim_text": "Assay standardization challenges exist across platforms and laboratories for genomics-based AI.",
+      "citation_ids": [
+        10
+      ],
+      "verdict": "unsupported",
+      "reason": "The source does not mention assay standardization challenges across platforms and laboratories for genomics-based AI.",
+      "source_says": "The source discusses MCED tests combining molecular analysis with AI but does not address assay standardization challenges."
+    },
+    {
+      "claim_text": "Tissue-of-origin prediction accuracy in genomics-based AI varies, and misclassification can misdirect workup.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal AI systems consistently demonstrate performance gains over single-modality approaches.",
+      "citation_ids": [
+        7,
+        12,
+        13,
+        14
+      ],
+      "verdict": "supported",
+      "reason": "Each cited source reports that multimodal fusion outperforms single-modality approaches, with quantitative results showing higher AUC and accuracy for the multimodal models.",
+      "source_says": "The fusion of genomic and imaging modalities significantly enhances classification performance (AUC 96.3% vs. 91.8% imaging alone and 89.7% gene expression alone); multimodal solution reaches up to AUC 0.96 and is significantly better than unimodal; the model registers a 95.88% diagnostic accuracy and AUC of 0.98, highlighting improvements."
+    },
+    {
+      "claim_text": "Semi-supervised deep fusion of histopathology, genomics, and clinical data for cervical cancer achieved AUC 0.98.",
+      "citation_ids": [
+        14
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the model achieved an AUC of 0.98.",
+      "source_says": "its Area Under the Curve (AUC) of 0.98 is testament to its high discriminative ability."
+    },
+    {
+      "claim_text": "Semi-supervised deep fusion of histopathology, genomics, and clinical data for cervical cancer achieved sensitivity 96%.",
+      "citation_ids": [
+        14
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the model achieved a sensitivity of 96%, matching the claim exactly.",
+      "source_says": "the model registering a ... sensitivity of 96%"
+    },
+    {
+      "claim_text": "Semi-supervised deep fusion of histopathology, genomics, and clinical data for cervical cancer achieved specificity 94%.",
+      "citation_ids": [
+        14
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the model achieved a specificity of 94%.",
+      "source_says": "the model registering a 95.88% diagnostic accuracy, sensitivity of 96%, and specificity of 94%"
+    },
+    {
+      "claim_text": "LungGuard 3D-CNN fusion of low-dose CT, biomarkers, and demographics for lung cancer achieved AUC 0.96.",
+      "citation_ids": [
+        12
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that LungGuard achieves AUC ≈ 0.96 in early-stage lung cancer detection.",
+      "source_says": "Preliminary results show that LungGuard achieves AUC ≈ 0.96, sensitivity ≈ 92%, specificity ≈ 90% in early-stage (I & II) lung cancer detection"
+    },
+    {
+      "claim_text": "LungGuard 3D-CNN fusion of low-dose CT, biomarkers, and demographics for lung cancer achieved sensitivity approximately 92%.",
+      "citation_ids": [
+        12
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that LungGuard achieves sensitivity approximately 92% in early-stage lung cancer detection.",
+      "source_says": "Preliminary results show that LungGuard achieves AUC ≈ 0.96, sensitivity ≈ 92%, specificity ≈ 90% in early-stage (I & II) lung cancer detection"
+    },
+    {
+      "claim_text": "LungGuard 3D-CNN fusion of low-dose CT, biomarkers, and demographics for lung cancer achieved specificity approximately 90%.",
+      "citation_ids": [
+        12
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that LungGuard achieves specificity ≈ 90% in early-stage lung cancer detection.",
+      "source_says": "Preliminary results show that LungGuard achieves ... specificity ≈ 90% in early-stage (I & II) lung cancer detection"
+    },
+    {
+      "claim_text": "SHAP-guided random forest and CNN fusion of CT imaging and gene expression for lung cancer achieved AUC 0.963.",
+      "citation_ids": [
+        7
+      ],
+      "verdict": "overstated",
+      "reason": "The source reports an AUC of 96.3%, not 0.963, and the claim uses a different numeric format (0.963) which is equivalent but the source does not mention 'SHAP-guided random forest and CNN fusion' as the method; it describes a multi-modal framework with Random Forest and CNN+VAE, and the claim's phrasing is more specific and less qualified than the source.",
+      "source_says": "The fusion of genomic and imaging modalities significantly enhances classification performance, achieving an AUC of 96.3%"
+    },
+    {
+      "claim_text": "Multimodal AI using visual, genomic, and clinical features for cervical cancer achieved high performance.",
+      "citation_ids": [
+        13
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the multimodal AI solution reached an AUC of 0.96, which indicates high performance.",
+      "source_says": "The multimodal solution reached up to AUC 0.96 and was significantly better than unimodal."
+    },
+    {
+      "claim_text": "Multimodal AI systems can handle missing modalities with imputation or masking strategies.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "SHAP and attention maps enable clinical interpretability in multimodal AI.",
+      "citation_ids": [
+        7
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that SHAP and Grad-CAM techniques validate salient radiomic features and that the framework combines high predictive accuracy with interpretability across data types, which directly supports the claim that SHAP and attention maps enable clinical interpretability in multimodal AI.",
+      "source_says": "Grad-CAM and SHAP techniques validate salient radiomic features... By combining high predictive accuracy with interpretability across data types, the proposed framework advances radiogenomic lung cancer detection while setting a precedent for deploying trustworthy AI systems in precision oncology."
+    },
+    {
+      "claim_text": "Integrated heterogeneous data types, missing modalities, and multi-site alignment are challenges for multimodal AI.",
+      "citation_ids": [
+        12,
+        14
+      ],
+      "verdict": "unsupported",
+      "reason": "The sources describe multimodal AI systems and their successes but do not discuss challenges such as integrated heterogeneous data types, missing modalities, or multi-site alignment.",
+      "source_says": "The sources present frameworks that fuse imaging, clinical, and demographic data (LungGuard) or histopathological images, genomic profiles, and clinical information (cervical cancer framework), and mention multi-centre data but not as a challenge."
+    },
+    {
+      "claim_text": "Requiring paired imaging and molecular data significantly reduces available training cohorts for multimodal AI.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "3D CNN fusion pipelines require substantial GPU resources.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Most gains of multimodal AI are demonstrated on retrospective datasets.",
+      "citation_ids": [
+        12,
+        13
+      ],
+      "verdict": "unsupported",
+      "reason": "Neither source discusses the proportion of multimodal AI gains demonstrated on retrospective versus prospective datasets; they only describe their own studies.",
+      "source_says": "The lung cancer source mentions training on a multi-centre dataset and future work in prospective cohorts; the cervical cancer source describes using cohorts but does not specify retrospective or prospective."
+    },
+    {
+      "claim_text": "Imaging-based AI achieved best AUC of 0.968.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging-based AI achieved best sensitivity of 86% (median) for prostate cancer.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging-based AI achieved best specificity of 96.41% for breast imaging.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging-based AI has validation scale large, at population-scale.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics-based AI achieved best AUC of 0.98–0.993.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics-based AI achieved best sensitivity of 100% for NSCLC SERS.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics-based AI achieved best specificity of 98% for NSCLC SERS.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics-based AI validation scale is small to medium cohorts.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal fusion AI achieved best AUC of 0.98.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal fusion AI achieved best sensitivity of 96% for cervical cancer.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal fusion AI achieved best specificity of 94% for cervical cancer.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal fusion AI validation scale is medium, multi-centre.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging alone (CT-CNN) for lung cancer detection achieved AUC of 91.8%.",
+      "citation_ids": [
+        7
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that imaging alone achieved an AUC of 91.8%.",
+      "source_says": "achieving an AUC of 96.3%, compared to 91.8% with imaging alone and 89.7% with gene expression alone."
+    },
+    {
+      "claim_text": "Genomics alone (gene expression RF) for lung cancer detection achieved AUC of 89.7%.",
+      "citation_ids": [
+        7
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that gene expression alone achieved an AUC of 89.7%.",
+      "source_says": "The fusion of genomic and imaging modalities significantly enhances classification performance, achieving an AUC of 96.3%, compared to 91.8% with imaging alone and 89.7% with gene expression alone."
+    },
+    {
+      "claim_text": "Multimodal fusion for lung cancer detection achieved AUC of 96.3%.",
+      "citation_ids": [
+        7
+      ],
+      "verdict": "supported",
+      "reason": "The source explicitly states that the fusion of genomic and imaging modalities achieved an AUC of 96.3%.",
+      "source_says": "The fusion of genomic and imaging modalities significantly enhances classification performance, achieving an AUC of 96.3%"
+    },
+    {
+      "claim_text": "Fusion provided a +4.5 percentage point gain over the best single modality in lung radiogenomics.",
+      "citation_ids": [
+        7
+      ],
+      "verdict": "supported",
+      "reason": "The source states fusion achieved 96.3% AUC versus 91.8% for imaging alone, a difference of 4.5 percentage points.",
+      "source_says": "The fusion of genomic and imaging modalities significantly enhances classification performance, achieving an AUC of 96.3%, compared to 91.8% with imaging alone and 89.7% with gene expression alone."
+    },
+    {
+      "claim_text": "Imaging AUC range is 0.63–0.97.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics AUC range is 0.90–0.993.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal AUC range is 0.96–0.98.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging sensitivity range is 13–100% (task-dependent).",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics sensitivity range is high in small cohorts.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal sensitivity range is approximately 90–96%.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging specificity range is 83–96%.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics specificity range is 83–98%.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal specificity range is approximately 90–94%.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging clinical maturity is four out of five stars.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics clinical maturity is two out of five stars.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal clinical maturity is three out of five stars.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging invasiveness is non-invasive.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics invasiveness is minimally invasive.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal invasiveness varies.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging data requirements are imaging archives.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics data requirements are biobank plus assay data.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal data requirements are both imaging and genomic data plus clinical data.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging scalability is high.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics scalability is medium.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal scalability is low to medium.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging explainability is medium using GradCAM.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics explainability is low to medium.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal explainability is medium using SHAP and attention.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Imaging regulatory approval is partial with FDA-cleared CAD systems.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Genomics regulatory approval is limited.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Multimodal regulatory approval is none yet.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Most high-performing AI models are validated retrospectively; prospective randomized clinical trials are rare.",
+      "citation_ids": [
+        10,
+        12,
+        4
+      ],
+      "verdict": "unsupported",
+      "reason": "The source abstracts do not state that most high-performing AI models are validated retrospectively, nor do they explicitly claim that prospective randomized clinical trials are rare; they only note a need for large-scale prospective trials, which does not directly confirm the claim.",
+      "source_says": "Source [12] implies its own model validation was not yet prospective (future work aims at prospective cohorts), and source [4] concludes that 'large-scale prospective trials are required to validate clinical integration.'"
+    },
+    {
+      "claim_text": "Small cohorts relative to model complexity inflate reported performance, especially in genomics.",
+      "citation_ids": [
+        10,
+        11
+      ],
+      "verdict": "unsupported",
+      "reason": "Neither source discusses small cohorts relative to model complexity or inflated performance, especially in genomics.",
+      "source_says": "The sources focus on MCED tests and a systematic review of AI in precision medicine, without addressing cohort size or performance inflation."
+    },
+    {
+      "claim_text": "Models trained on single-institution data often underperform on external datasets.",
+      "citation_ids": [
+        3,
+        4
+      ],
+      "verdict": "unsupported",
+      "reason": "The source texts discuss AI performance in breast cancer screening and prostate cancer detection, but do not mention training on single-institution data or underperformance on external datasets.",
+      "source_says": "Source 3 discusses generalization from UK to USA, and Source 4 mentions methodological heterogeneity restricting generalizability, but neither directly addresses the claim."
+    },
+    {
+      "claim_text": "Few AI-based cancer screening tools have achieved broad clinical approval.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "False-positive rates in CT lung nodule detection and mammography remain clinically significant.",
+      "citation_ids": [
+        2,
+        6
+      ],
+      "verdict": "unsupported",
+      "reason": "The source for CT lung nodule detection mentions variable specificity but does not state that false-positive rates are clinically significant, and the mammography source does not discuss false-positive rates.",
+      "source_says": "For CT: 'specificity remained variable'; for mammography: no mention of false-positive rates."
+    },
+    {
+      "claim_text": "Tissue-of-origin misclassification in MCED tests is a key barrier to clinical deployment.",
+      "citation_ids": [
+        10
+      ],
+      "verdict": "unsupported",
+      "reason": "The source does not mention tissue-of-origin misclassification as a barrier; it only notes that large-scale clinical validation studies are lacking.",
+      "source_says": "The abstract lists 'major factors which are preventing clinical implementation' but does not specify tissue-of-origin misclassification."
+    },
+    {
+      "claim_text": "Requiring paired, synchronized data from multiple modalities reduces available training datasets and complicates real-world deployment.",
+      "citation_ids": [
+        12,
+        14
+      ],
+      "verdict": "unsupported",
+      "reason": "Neither source discusses any reduction in available training datasets or complications in real-world deployment caused by requiring paired, synchronized multimodal data.",
+      "source_says": "Both abstracts focus on the benefits and performance of multimodal fusion, with no mention of data pairing limitations or deployment challenges."
+    },
+    {
+      "claim_text": "Large-scale pre-trained vision transformers such as CONCH and UNI are trained on millions of pathology images and enable zero-shot and few-shot cancer detection.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "Federated learning enables training on distributed hospital datasets without sharing raw patient data.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    },
+    {
+      "claim_text": "The NHS-Galleri trial in the UK is evaluating blood-based MCED tests in population screening contexts.",
+      "citation_ids": [
+        10
+      ],
+      "verdict": "unsupported",
+      "reason": "The source text does not mention the NHS-Galleri trial or any specific UK trial evaluating blood-based MCED tests in population screening contexts.",
+      "source_says": "The abstract discusses MCED tests generally and notes that large-scale clinical validation studies are still lacking, but does not reference any specific trial."
+    },
+    {
+      "claim_text": "SHAP values, GradCAM, and attention visualization are increasingly integrated into cancer detection pipelines.",
+      "citation_ids": [
+        7
+      ],
+      "verdict": "unsupported",
+      "reason": "The source describes a single study using SHAP and Grad-CAM but does not mention attention visualization or state that these methods are increasingly integrated into cancer detection pipelines.",
+      "source_says": "Grad-CAM and SHAP techniques validate salient radiomic features; no mention of attention visualization or increasing integration."
+    },
+    {
+      "claim_text": "Post-market surveillance of FDA-cleared AI tools in mammography and lung CT screening is generating real-world performance data.",
+      "citation_ids": [],
+      "verdict": "uncited",
+      "reason": "Specific factual claim has no citation, so it cannot be grounded in the report's evidence trail.",
+      "source_says": "No citation attached."
+    }
+  ],
+  "stage3_status": "complete",
+  "data_extraction": null,
+  "synthesis_faithfulness": null,
+  "stage3_claims": [
+    {
+      "claim_text": "Large-scale deployment studies and head-to-head comparisons with radiologists have been reported, particularly in breast and lung cancer screening.",
+      "citation_ids": [
+        1,
+        2,
+        3
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Breast cancer detection using mammography plus ultrasound multimodal imaging with deep learning fusion achieved an AUC of 0.968.",
+      "citation_ids": [
+        5
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Breast cancer detection using mammography plus ultrasound multimodal imaging with deep learning fusion achieved a specificity of 96.41%.",
+      "citation_ids": [
+        5
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "AI CAD applied to longitudinal screening mammography achieved AUC of 0.63–0.67.",
+      "citation_ids": [
+        6
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "AI CAD applied to longitudinal screening mammography achieved sensitivity of 13–25% for pre-diagnostic detection.",
+      "citation_ids": [
+        6
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "AI CAD applied to longitudinal screening mammography achieved specificity fixed at 90%.",
+      "citation_ids": [
+        6
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "CNN ensemble applied to prostate mpMRI achieved median AUC of 0.88.",
+      "citation_ids": [
+        4
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "CNN ensemble applied to prostate mpMRI achieved median sensitivity of 86%.",
+      "citation_ids": [
+        4
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "CNN ensemble applied to prostate mpMRI achieved median specificity of 83%.",
+      "citation_ids": [
+        4
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "CNN-based lung CT nodule detection improved sensitivity compared to baseline.",
+      "citation_ids": [
+        2
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Deep learning mammography for international breast screening was non-inferior to radiologists.",
+      "citation_ids": [
+        3
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Deep learning mammography reduced reader workload.",
+      "citation_ids": [
+        3
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Direct comparison with radiologist performance is available for imaging-based AI.",
+      "citation_ids": [
+        3
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Regulatory-cleared AI tools exist, including FDA-cleared CAD systems.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Dataset heterogeneity across scanners, institutions, and annotation protocols reduces generalizability of imaging-based AI.",
+      "citation_ids": [
+        4,
+        2
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "False positives remain a persistent challenge in imaging-based AI, leading to specificity variability.",
+      "citation_ids": [
+        2,
+        6
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "There is limited prospective validation of imaging-based AI in real-world screening workflows.",
+      "citation_ids": [
+        4,
+        3
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging-based AI performance degrades for rare cancers with limited training data.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics-based AI approaches are promising for multi-cancer early detection because they are non-invasive and cancer-type agnostic.",
+      "citation_ids": [
+        10
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "ML spectral classifier on SERS serum artificial nose achieved 100% sensitivity for NSCLC detection.",
+      "citation_ids": [
+        9
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "ML spectral classifier on SERS serum artificial nose achieved 98% specificity for NSCLC detection.",
+      "citation_ids": [
+        9
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "1D-CNN + LSTM on urine proteomics achieved AUC 0.98 for pancreatic cancer detection.",
+      "citation_ids": [
+        8
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "1D-CNN + LSTM on urine proteomics achieved 97% accuracy for pancreatic cancer detection.",
+      "citation_ids": [
+        8
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Ensemble ML on blood cfDNA/methylation achieved AUC up to 0.993 for multi-cancer detection.",
+      "citation_ids": [
+        11
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomic/omics AI meta-analysis reported AUC range approximately 0.90–0.993.",
+      "citation_ids": [
+        11
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Very high AUCs (>0.99) in genomics studies often reflect small, homogeneous cohorts with potential overfitting.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics-based AI can detect molecular alterations before imaging-detectable lesions.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Small cohort sizes and risk of overfitting are concerns in high-performance genomics AI reports.",
+      "citation_ids": [
+        10,
+        11
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Most blood-based multi-cancer early detection tests are not yet clinically validated at population scale.",
+      "citation_ids": [
+        10
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Assay standardization challenges exist across platforms and laboratories for genomics-based AI.",
+      "citation_ids": [
+        10
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Tissue-of-origin prediction accuracy in genomics-based AI varies, and misclassification can misdirect workup.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal AI systems consistently demonstrate performance gains over single-modality approaches.",
+      "citation_ids": [
+        7,
+        12,
+        13,
+        14
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Semi-supervised deep fusion of histopathology, genomics, and clinical data for cervical cancer achieved AUC 0.98.",
+      "citation_ids": [
+        14
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Semi-supervised deep fusion of histopathology, genomics, and clinical data for cervical cancer achieved sensitivity 96%.",
+      "citation_ids": [
+        14
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Semi-supervised deep fusion of histopathology, genomics, and clinical data for cervical cancer achieved specificity 94%.",
+      "citation_ids": [
+        14
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "LungGuard 3D-CNN fusion of low-dose CT, biomarkers, and demographics for lung cancer achieved AUC 0.96.",
+      "citation_ids": [
+        12
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "LungGuard 3D-CNN fusion of low-dose CT, biomarkers, and demographics for lung cancer achieved sensitivity approximately 92%.",
+      "citation_ids": [
+        12
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "LungGuard 3D-CNN fusion of low-dose CT, biomarkers, and demographics for lung cancer achieved specificity approximately 90%.",
+      "citation_ids": [
+        12
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "SHAP-guided random forest and CNN fusion of CT imaging and gene expression for lung cancer achieved AUC 0.963.",
+      "citation_ids": [
+        7
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal AI using visual, genomic, and clinical features for cervical cancer achieved high performance.",
+      "citation_ids": [
+        13
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal AI systems can handle missing modalities with imputation or masking strategies.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "SHAP and attention maps enable clinical interpretability in multimodal AI.",
+      "citation_ids": [
+        7
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Integrated heterogeneous data types, missing modalities, and multi-site alignment are challenges for multimodal AI.",
+      "citation_ids": [
+        12,
+        14
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Requiring paired imaging and molecular data significantly reduces available training cohorts for multimodal AI.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "3D CNN fusion pipelines require substantial GPU resources.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Most gains of multimodal AI are demonstrated on retrospective datasets.",
+      "citation_ids": [
+        12,
+        13
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging-based AI achieved best AUC of 0.968.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging-based AI achieved best sensitivity of 86% (median) for prostate cancer.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging-based AI achieved best specificity of 96.41% for breast imaging.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging-based AI has validation scale large, at population-scale.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics-based AI achieved best AUC of 0.98–0.993.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics-based AI achieved best sensitivity of 100% for NSCLC SERS.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics-based AI achieved best specificity of 98% for NSCLC SERS.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics-based AI validation scale is small to medium cohorts.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal fusion AI achieved best AUC of 0.98.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal fusion AI achieved best sensitivity of 96% for cervical cancer.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal fusion AI achieved best specificity of 94% for cervical cancer.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal fusion AI validation scale is medium, multi-centre.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging alone (CT-CNN) for lung cancer detection achieved AUC of 91.8%.",
+      "citation_ids": [
+        7
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics alone (gene expression RF) for lung cancer detection achieved AUC of 89.7%.",
+      "citation_ids": [
+        7
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal fusion for lung cancer detection achieved AUC of 96.3%.",
+      "citation_ids": [
+        7
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Fusion provided a +4.5 percentage point gain over the best single modality in lung radiogenomics.",
+      "citation_ids": [
+        7
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging AUC range is 0.63–0.97.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics AUC range is 0.90–0.993.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal AUC range is 0.96–0.98.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging sensitivity range is 13–100% (task-dependent).",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics sensitivity range is high in small cohorts.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal sensitivity range is approximately 90–96%.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging specificity range is 83–96%.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics specificity range is 83–98%.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal specificity range is approximately 90–94%.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging clinical maturity is four out of five stars.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics clinical maturity is two out of five stars.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal clinical maturity is three out of five stars.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging invasiveness is non-invasive.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics invasiveness is minimally invasive.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal invasiveness varies.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging data requirements are imaging archives.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics data requirements are biobank plus assay data.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal data requirements are both imaging and genomic data plus clinical data.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging scalability is high.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics scalability is medium.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal scalability is low to medium.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging explainability is medium using GradCAM.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics explainability is low to medium.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal explainability is medium using SHAP and attention.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Imaging regulatory approval is partial with FDA-cleared CAD systems.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Genomics regulatory approval is limited.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Multimodal regulatory approval is none yet.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Most high-performing AI models are validated retrospectively; prospective randomized clinical trials are rare.",
+      "citation_ids": [
+        10,
+        12,
+        4
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Small cohorts relative to model complexity inflate reported performance, especially in genomics.",
+      "citation_ids": [
+        10,
+        11
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Models trained on single-institution data often underperform on external datasets.",
+      "citation_ids": [
+        3,
+        4
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Few AI-based cancer screening tools have achieved broad clinical approval.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "False-positive rates in CT lung nodule detection and mammography remain clinically significant.",
+      "citation_ids": [
+        2,
+        6
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Tissue-of-origin misclassification in MCED tests is a key barrier to clinical deployment.",
+      "citation_ids": [
+        10
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Requiring paired, synchronized data from multiple modalities reduces available training datasets and complicates real-world deployment.",
+      "citation_ids": [
+        12,
+        14
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Large-scale pre-trained vision transformers such as CONCH and UNI are trained on millions of pathology images and enable zero-shot and few-shot cancer detection.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Federated learning enables training on distributed hospital datasets without sharing raw patient data.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "The NHS-Galleri trial in the UK is evaluating blood-based MCED tests in population screening contexts.",
+      "citation_ids": [
+        10
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "SHAP values, GradCAM, and attention visualization are increasingly integrated into cancer detection pipelines.",
+      "citation_ids": [
+        7
+      ],
+      "is_common_knowledge": false
+    },
+    {
+      "claim_text": "Post-market surveillance of FDA-cleared AI tools in mammography and lung CT screening is generating real-world performance data.",
+      "citation_ids": [],
+      "is_common_knowledge": false
+    }
+  ]
+}

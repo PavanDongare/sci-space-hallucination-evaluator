@@ -1,0 +1,181 @@
+"Paper Title","Paper Link","Publication Year","Publication Type","Publication Title","Author Names","DOI","PDF Link","Abstract"
+"Decoding Spectral Perturbations from a SERS Artificial Nose in Serum for Early Lung Cancer Detection.","https://scispace.com/paper/42289861","2026","Journal Article","Analytical chemistry","Peng
+Li
+Liu
+Cai
+Zhang","10.1021/acs.analchem.6c00680","","Serum biomarkers for early cancer detection often suffer from limited sensitivity and specificity due to the biochemical complexity of blood. Here, we report a surface-enhanced Raman scattering (SERS) artificial nose that integrates a set of chemically distinct molecular receptors to generate multidimensional spectral responses to human serum. These receptors exhibit large Raman cross sections and well-defined vibrational signatures, enabling high signal-to-noise readouts and subtle yet reproducible spectral perturbations upon exposure to serum components. By applying machine-learning analysis to the resulting multivariate Raman patterns, we extract a diagnostic molecular fingerprint capable of distinguishing early-stage non-small-cell lung cancer (NSCLC) from controls. Using an optimized multireceptor array, the model achieves 100% sensitivity at 98% specificity, markedly outperforming conventional serological biomarkers and imaging-based screening approaches. This work establishes a chemically tunable SERS artificial nose as a powerful strategy for serum-based cancer detection and highlights the potential of multiplexed, receptor-driven sensing for disease-associated metabolic phenotyping."
+"Artificial Intelligence Detection Scores in Screening Mammography for Early Breast Cancer Alerts.","https://scispace.com/paper/42262245","2026","Journal Article","Radiology","Hickman
+Gialias
+Schurz
+Cossío
+Choi
+Tsirikoglou
+Gustafsson
+Zackrisson
+Strand","10.1148/radiol.251309","","Background Artificial intelligence (AI)-based computer-aided detection (CAD) systems have demonstrated clinically significant performance in mammographic screening in both retrospective and prospective studies. However, the role of AI in early cancer detection requires further evaluation. Purpose To demonstrate how AI scores in individuals diagnosed with breast cancer may increase up to 10 years before their diagnosis, compared with individuals who remain cancer-free. Materials and Methods A retrospective study using the Validation of Artificial Intelligence for Breast Imaging (VAI-B) database, covering four regions in Sweden from January 2008 to April 2019, was carried out. For each individual, all mammographic examinations were included (maximum of 10 years before diagnosis in those who developed cancer). Upsampling was performed to provide a representative 1% cancer proportion. Three commercial AI CAD systems (AI-1, AI-2, and AI-3) provided raw examination-level AI scores, which were converted to rank-order percentile AI scores. Temporal changes in AI scores were analyzed, and receiver operating characteristic curve analyses were conducted. Results A total of 31 394 individuals (with 88 963 examinations) were included, of whom 12 072 (38.5%) were diagnosed with cancer. The median age at screening was 57.6 years (IQR, 48.9-65.2 years). At 90% specificity, the proportion of cancers potentially flagged by AI-1, AI-2, and AI-3 was 12.7%, 13.8%, and 17.0%, respectively, at 10 years before diagnosis; 19.0%, 19.6%, and 19.7%, respectively, at 6 years before diagnosis; and 24.2%, 23.3%, and 25.2%, respectively, at 4 years before diagnosis. For all time points combined, excluding screen detection, the area under the receiver operating characteristic curve (AUC) ranged from 0.63 to 0.67 for the three AI CAD systems, compared with an AUC of 0.57 for mammographic density as the predictor (all "
+"ROI-guided virtual narrow band imaging for laryngeal cancer screening.","https://scispace.com/paper/42256307","2026","Journal Article","iScience","Huang
+Zhu
+Zhao
+Li
+Wang
+Luo
+Zhen
+Zhang
+Wang
+Zhang
+Liu
+Zhang
+Liu
+Ni","10.1016/j.isci.2026.116161","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13233563/pdf","White light laryngoscopy is widely available but can miss subtle vascular changes associated with early laryngeal neoplasia. We developed a region-of-interest (ROI)-guided cycle-consistent generative adversarial network (CycleGAN) that translates white light imaging (WLI) images into virtual narrow band imaging (NBI) images, while emphasizing expert-annotated lesion regions. The framework was trained and evaluated on 775 weakly paired WLI-NBI image pairs and assessed with technical image quality metrics, subjective reader scoring, a visual Turing test, and a multi-center reader study involving 12 otolaryngologists from nine institutions. The model preserved lesion-region structure better than global background structure and improved overall reader accuracy compared with WLI alone (81.5% versus 73.4%). Assistance mainly increased sensitivity for junior readers and specificity for senior readers. These findings support virtual NBI as a potential software-based adjunct where optical NBI is unavailable, while requiring further external and small-lesion validation."
+"Development of a machine learning predictive model for early detection of breast cancer.","https://scispace.com/paper/42253458","2025","Journal Article","F1000Research","Rahman
+Saha
+Dkhar
+Malli
+Barnes Abraham","10.12688/f1000research.161073.5","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13234550/pdf","Breast cancer remains a significant global health concern, with over 7.8 million cases reported in the last five years. Early detection and accurate classification are crucial for reducing mortality rates and improving outcomes. Machine learning (ML) has emerged as a transformative tool in medical imaging, enabling more efficient and accurate diagnostic processes."
+"Management of suspicious nodules in lung cancer screening - a narrative review of monitoring strategies based on nodule features and further needs.","https://scispace.com/paper/42318481","2026","Journal Article","Frontiers in oncology","Anghel
+Moga
+Folea
+Zgură
+Şerbănescu
+Toma
+Marinescu
+Şerban
+Bîlteanu","10.3389/fonc.2026.1744385","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13272302/pdf","Low-dose computed tomography screening plays a pivotal role in early lung cancer detection. This narrative review aims to evaluate nodule characteristics, especially volume doubling time (VDT), and their relevance to lung cancer suspicion, staging, and clinical outcomes, to support more accurate risk stratification in screening programs for lung cancer."
+"Efficacy of Spectral-Aided Visual Enhancer in Classification of Esophageal Cancer.","https://scispace.com/paper/42192971","2026","Journal Article","Cancers","Koh
+Mukundan
+Karmakar
+Atulbhai
+Chen
+Weng
+Wang","10.3390/cancers18101609","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13204065/pdf",""
+"OMAMA-DB: the Oregon-Massachusetts Mammography Database.","https://scispace.com/paper/42205157","2026","Journal Article","Journal of medical imaging (Bellingham, Wash.)","Kanamarlapudi
+Zurrin
+Gaibor
+Gutierrez
+Goyal
+Narayanapa
+Simovici
+Haspel
+Pomplun
+Lee
+Bandler
+Sorensen
+Haehn","10.1117/1.JMI.13.6.062205","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13210887/pdf","Public datasets for training artificial intelligence (AI) models in breast cancer screening are limited in size and quality, making it difficult to develop reliable systems. We introduce OMAMA-DB, an extensive publicly available collection of two-dimensional (2D) mammograms and three-dimensional (3D) tomosynthesis volumes."
+"Interpretable multi-center machine learning model driven by facial image features for non-invasive early risk assessment of lung cancer.","https://scispace.com/paper/42222284","2026","Journal Article","Frontiers in physiology","Shi
+Chun
+Zhang
+Xu
+Chen
+Jiao
+Wang
+Tu
+Xu","10.3389/fphys.2026.1835790","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13218986/pdf","Early identification of lung cancer is critical for improving patient survival and prognosis. Conventional pathological biopsy is invasive, and computed tomography (CT) involves ionizing radiation risks. Facial imaging, as a non-invasive and accessible biological signal, is a promising novel approach for lung cancer auxiliary diagnosis."
+"Liquid Biopsy in Modern Oncology: Advances, Challenges, and Future Perspectives in Early Cancer Detection, Minimal Residual Disease, and Dynamic Patient Monitoring.","https://scispace.com/paper/42176138","2026","Journal Article","Current oncology reports","Rojas-Salazar
+Gómez-Montañez
+Rojas-Salazar","10.1007/s11912-026-01799-y","","Liquid biopsy has emerged as a minimally invasive approach to overcome the limitations of tissue biopsy in oncology. This review aims to synthesize recent advances in its clinical applications, particularly in early cancer detection, therapeutic monitoring, and minimal residual disease (MRD), while discussing current challenges, regulatory perspectives, and future directions."
+"Use of Artificial Intelligence in prostate MRI: A rapid scoping review highlighting limited evidence in screening context.","https://scispace.com/paper/42142521","2026","Journal Article","European journal of radiology","Singh
+Salazar Gutiérrez
+Rouviere
+Giganti
+Otero-García
+van den Bergh
+Roobol
+Venderbos
+Collen
+van Poppel
+Basu
+Chandran","10.1016/j.ejrad.2026.112930","","Artificial Intelligence (AI) is seen as a potential solution to alleviate workforce demands arising from growing use of magnetic resonance imaging (MRI) in prostate cancer (PCa) screening. We aimed to synthesize the evidence on use of AI in prostate MRI readings in asymptomatic men in PCa screening settings."
+"A Prospective Study to Assess the Utility of Artificial Intelligence-driven Cervical Screening Using Smart Scope versus Conventional Method.","https://scispace.com/paper/42124807","2026","Journal Article","Journal of mid-life health","Dhar
+Saha
+Sarkar
+Sarkar
+Das
+Dutta","10.4103/jmh.jmh_170_25","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13160539/pdf","Cervical cancer, the fourth most common cancer among women worldwide, often proves fatal and stems from high-risk human papillomavirus infection. Approximately 90% of cervical cancers can be prevented due to the disease's slow progression, which allows for a 10-year window for the detection and treatment of precancerous lesions. The World Health Organization called for global action toward the elimination of cervical cancer. One of the main strategies for cervical cancer elimination is to achieve screening coverage of at least 70% of women aged 35-45 years and to ensure that 90% of women diagnosed with precancerous lesions or invasive cervical cancer receive appropriate treatment by 2030. One of the main strategies for cervical cancer elimination is to achieve screening coverage of at least 70% of women aged 35-45 years and to ensure that 90% of women diagnosed with precancerous lesions or invasive cervical cancer receive appropriate treatment by 2030."
+"The CT colonography radiology and data system: history, updates, and future directions.","https://scispace.com/paper/42169192","2026","Journal Article","Cancer imaging : the official publication of the International Cancer Imaging Society","Calabria
+Ahmed
+Moreno
+Chang","10.1186/s40644-026-01043-7","","Computed tomography colonography, also known as virtual colonoscopy, is a minimally invasive imaging technique developed in the early 1990s to evaluate the colon for polyps, cancer, and other abnormalities. Advances in multidetector computed tomography, bowel preparation protocols, and three-dimensional reconstruction rapidly improved diagnostic performance. Landmark trials demonstrating sensitivity for clinically significant adenomas comparable to optical colonoscopy led to its acceptance as a colorectal cancer screening option. Standardized reporting further accelerated clinical uptake. The CT Colonography Reporting and Data System (C-RADS), introduced in 2005, provided a structured lexicon for colonic and extracolonic findings, allowing more consistent communication and management. Prior to structured reporting, early clinical implementation of computed tomography colonography was challenged by wide variability in terminology and follow-up thresholds. C-RADS addressed these issues by categorizing colonic findings according to adequacy of evaluation and likelihood of neoplastic disease and stratifying extracolonic observations based on clinical significance. The system enhanced clarity, increased reproducibility, and supported longitudinal research efforts by enabling systematic outcome tracking. Experience gained over the next decade and a half led to the C-RADS 2023 update. Notable changes included subdivision of intermediate colonic findings to distinguish likely benign diverticular-associated soft tissue thickening from indeterminate lesions, and simplification of extracolonic categories to reduce over-reporting of clinically unimportant findings. Future directions include broader adoption across health systems, automated detection and computer-assisted interpretation, and integration with artificial intelligence to improve polyp identification and extracolonic assessment. Together, these advances are expected to expand access, improve efficiency, and further solidify computed tomography colonography within evidence-supported screening practice."
+"Analytical approaches for the isolation and characterisation of circulating tumour cells in clinical practice.","https://scispace.com/paper/42097193","2026","Journal Article","Clinica chimica acta; international journal of clinical chemistry","Martín-Carbajo
+Hervás-Pérez
+Moreno-Guzmán
+Sánchez-Paniagua","10.1016/j.cca.2026.121055","","Circulating tumour cells (CTC) are rare cells shed from primary and metastatic tumours into the bloodstream, representing a minimally invasive source of information on tumour biology, dissemination, and therapeutic resistance. Their detection, isolation, and characterisation have emerged as critical tools for precision oncology, serving as robust prognostic and predictive biomarkers that reflect metastatic potential, treatment response, and overall survival. CTC isolation and analysis are challenging due to their extremely low frequency-often one cell per million blood cells-and their phenotypic heterogeneity. Current strategies include enrichment-based methods, exploiting physical or molecular properties for selective capture, and non-enrichment approaches, which preserve cellular integrity for downstream molecular, functional, and imaging analyses. Key performance metrics for isolation platforms include capture efficiency, enrichment, purity, throughput, recovery, and cell viability. Validation often relies on spiked cell lines, though these models may overestimate performance compared with heterogeneous patient-derived CTCs. Integrative approaches combining multiple methodologies are essential to fully characterize CTC populations and overcome individual limitations. Technological advances, including microfluidics, single-cell sequencing, and artificial intelligence-driven analysis, have enhanced the sensitivity and specificity of CTC detection, enabling comprehensive molecular and functional profiling. The FDA-approved CellSearch® system remains the clinical gold standard, primarily in metastatic disease, but emerging platforms aim to enable early detection, real-time disease monitoring, and the identification of subpopulations with high metastatic potential. Future directions in CTC research focus on early cancer detection, longitudinal monitoring of therapeutic response, and personalized treatment adaptation. Integration with other circulating biomarkers, such as circulating tumour DNA and exosomes, promise enhanced prognostic and diagnostic accuracy. Standardization of protocols and validation in clinical samples will be critical for translating these technologies into routine oncology practice."
+"Clinical Performance Tradeoffs of ChatGPT-5.2 Thinking (OpenAI) Compared with Radiologist Interpretation in Biopsy-Referred Mammography: Cancer Detection, False Positives, and Laterality.","https://scispace.com/paper/42042933","2026","Journal Article","Tomography (Ann Arbor, Mich.)","Alarifi
+Aloufi
+Jabour
+Abanomy
+Alahmad
+Alenazi
+Alshedi
+Almanaa","10.3390/tomography12040045","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13120468/pdf",""
+"Artificial intelligence, omics, and biomarkers: Redefining lung cancer early detection.","https://scispace.com/paper/42105533","2026","Journal Article","Current problems in cancer","Nizam
+Shireen
+Hasan
+Singh
+Farooqui
+Naithani
+Farooqi","10.1016/j.currproblcancer.2026.101312","","Lung cancer, the leading cause of death worldwide, claims millions of lives yearly, largely due to limited early interventions. Currently used lung cancer screening methods are still limited in their reach and accuracy due to invasiveness, radiation exposure, and low sensitivity, especially in early stages, necessitating the need for innovative technologies. This review examines emerging tools for the early detection of lung cancer, utilizing biomarkers in conjunction with omics approaches and AI technology, which could significantly impact its clinical landscape. Tumor cells release specific biological indicators called biomarkers, which can be cellular components, nucleic acid fragments, protein fragments, or metabolites, detected from bodily fluids through non-invasive methods. The integration of biomarkers with omics technologies (such as proteomics and genomics) or multi-omics provides a comprehensive insight into the molecular profiles of various cancer subtypes and stages. Artificial intelligence, including machine learning and deep learning tools, further increases the accuracy and precision of these techniques. However, challenges still persist in its clinical translation, including technical limitations, regulatory hurdles and ethical concerns. Overcoming these limitations requires standardised protocols, interdisciplinary collaborations, and strategies for equitable access to innovative technologies. Novel, cutting-edge technological interventions, such as advanced imaging techniques, sensor technology, nanotechnology, breathomics, and microbiome analysis, have the potential to enhance early lung cancer diagnosis, ultimately improving patient outcomes and reducing the global burden of this disease."
+"Concordance of AI-Assisted and Hybrid AI-Assisted Cervical Imaging Systems with Visual Inspection with Acetic Acid for Cervical Precancer Screening in West Bandung, Indonesia.","https://scispace.com/paper/42038991","2026","Journal Article","International journal of women's health","Mantilidewi
+Zenyda
+Alhayat
+Wardhana
+Adzkia
+Nabiylah
+Zahran
+Mukhayadi
+Suardi
+Agustian
+Hidayat","10.2147/IJWH.S585614","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13102534/pdf","Cervical cancer remains a major cause of morbidity and mortality among women, particularly in low- and middle-income countries (LMICs) where screening access is limited. Visual Inspection with Acetic Acid (VIA) is widely used but subject to inter-observer variability. Artificial intelligence (AI)-assisted cervical imaging may improve standardization; however, real-world community evidence is limited."
+"The DeepJoint Algorithm: An Innovative Approach for Studying the Longitudinal Evolution of Quantitative Mammographic Density and Its Association With Screen-Detected Breast Cancer Risk.","https://scispace.com/paper/42032926","2026","Journal Article","Biometrical journal. Biometrische Zeitschrift","Rakez
+Guillaumin
+Chick
+Coureau
+Chamming's
+Fillard
+Amadeo
+Rondeau","10.1002/bimj.70135","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13109635/pdf","High mammographic density is a well-known risk factor for breast cancer and reduces the sensitivity of mammography-based screening. While automated machine and deep learning-based methods provide more consistent and precise measurements compared to subjective Breast Imaging Reporting and Data System (BI-RADS) assessments, they often fail to account for the longitudinal evolution of density. Many of these methods assess mammographic density in a cross-sectional manner, overlooking correlations in repeated measures, irregular visit intervals, missing data, and informative dropouts. Joint models address these limitations by simultaneously modeling the relationship between longitudinal biomarkers and time-to-event outcomes. We introduce the DeepJoint algorithm, an open-source method combining deep learning-based mammographic density estimation with joint modeling to assess its longitudinal relationship with breast cancer risk. Our approach adequately analyzes processed mammograms from various manufacturers, estimating both dense area and percent density, two established risk factors for breast cancer. We utilize a joint model to explore their association with breast cancer risk and provide individualized risk predictions. Bayesian inference and the consensus Monte Carlo algorithm make the approach reliable for large screening datasets. By integrating deep learning with joint modeling, our new method provides a robust, comprehensive framework for evaluating breast cancer risk based on longitudinal density profiles. The complete pipeline is publicly available, promoting broader application and comparison with other methods."
+"Enhanced multicancer screening assay through whole-genome methylation sequencing-based multimodal cell-free DNA analysis.","https://scispace.com/paper/42014847","2026","Journal Article","Experimental & molecular medicine","Jeong
+Go
+Jeon
+Kim
+Lee
+Kim
+Woo
+Park
+Kim
+Park
+Lee
+Han
+Lee
+Kim
+Lee
+Kim
+Song
+Kim
+Cha
+Bang
+Kim","10.1038/s12276-026-01674-7","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13144671/pdf","The rapid and accurate detection of multiple cancers presents considerable challenges, especially for stage I disease, due to the low concentration and heterogeneous nature of circulating tumor DNA. Here we introduce an enhanced multicancer screening assay that integrates whole-genome methylation sequencing with an innovative multimodal analytical framework for cell-free DNA. The ensemble machine learning model integrates four specific cell-free DNA characteristics: average methylation fraction, copy number variation, fragment size ratio and fragment size distribution. The model underwent testing on 1415 samples, encompassing eight primary cancer types and healthy controls. The sensitivity was 93.2%, and the specificity was 95%. The test demonstrated effectiveness in detecting cancers at early stages. The sensitivity was 92.3% for stage I and 92.2% for stage II. The multimodal technique successfully combined average methylation fraction's sensitivity to early epigenetic signals with fragmentomic characteristics. This facilitated the differentiation between healthy individuals and those with early stage cancer. The model achieved an accuracy rate of 85.7% in the top 2 category for correctly identifying the tissue of origin. The results confirm that whole-genome methylation sequencing-based multimodal analysis can improve multicancer early detection technology and revolutionize cancer screening methods."
+"Circulating tumor cell detection in cancer patients using in-flow deep learning holography.","https://scispace.com/paper/41993926","2026","Journal Article","Npj biosensing","Mallery
+Bristow
+Heller
+Travadi
+Arafa
+Kamalanathan
+Galeano-Garces
+Ahmadi
+Schaap
+Hesch
+Hedeen
+Izuora
+Hapke
+Miller
+Viswanathan
+Babris
+Bae
+Bhattacharya
+Le
+Clacko
+Antonarakis
+Konety
+Drake
+Hong","10.1038/s44328-026-00084-z","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13079088/pdf","Circulating tumor cells (CTCs) are cancer cells found in the bloodstream that serve as biomarkers for early cancer detection, prognostication, and disease monitoring. However, CTC detection remains challenging due to low cell abundance and heterogeneity. Digital holographic microscopy (DHM) offers a promising, label-free method for high-throughput CTC identification by capturing superior morphological information compared to traditional imaging methods, while remaining compatible with in-flow data acquisition. We present a streamlined DHM-based system that integrates microfluidic enrichment with deep learning-driven image analysis, supplemented by immunofluorescent profiling, to improve sensitivity and specificity of CTC enumeration. Specifically, our platform combines inertial microfluidic preprocessing with dual-modality imaging, integrating holography with fluorescence sensing of up to two markers. A deep learning model, trained on a diverse set of healthy blood samples and cancer cell lines, and executed in real-time, provides a morphological confidence on a cell-by-cell basis that may then be combined with immunofluorescence criteria for enumeration. In a pilot study, we demonstrate higher CTC counts in patients with late-stage prostate cancer ("
+"Early Cancer Detection: What's Going on and What's Next.","https://scispace.com/paper/42022539","2026","Journal Article","MedComm","Di Carlo","10.1002/mco2.70653","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13097591/pdf","Late-stage cancer diagnosis and limited treatment options for advanced disease remain major contributors to cancer-related morbidity and mortality. Blood-based multicancer early detection (MCED) assays have consequently gained momentum as a means to shift diagnosis toward earlier, more curable stages. Despite their promise, substantial methodological, clinical, and implementation barriers hinder widespread adoption. Integrative approaches coupling multi-omics profiling with advanced molecular imaging may improve detection accuracy and tumor localization, while risk-adapted MCED paradigms could support more targeted, individualized screening strategies. This article reviews the current landscape of MCED technologies, with a primary focus on circulating cell-free DNA and circulating tumor DNA-based assays, and critically evaluates their developmental status, strengths, and limitations relative to established single-cancer screening methods. The contribution of artificial intelligence, particularly advanced deep learning,  to improving sensitivity, specificity, and predictive performance is discussed. The potential of MCED assays to detect aggressive, currently unscreened malignancies and to address the unique challenges of pediatric cancers is examined. In addition, emerging alternative detection strategies, ongoing clinical validation efforts, regulatory requirements, and implementation considerations are reviewed. Finally, the impact of MCED testing on cancer mortality, quality of life, and healthcare systems is outlined, along with key technological trends shaping future development and clinical translation."

@@ -1,0 +1,22 @@
+[
+  {
+    "channel": "SciSpace",
+    "query": "What are the AI-based approaches for early cancer detection using imaging and genomics with performance metrics like AUC, sensitivity, and specificity in multimodal systems?"
+  },
+  {
+    "channel": "SciSpace Full Text",
+    "query": "AI early cancer detection AUC sensitivity specificity imaging genomics multimodal deep learning machine learning performance comparison"
+  },
+  {
+    "channel": "Google Scholar",
+    "query": "(artificial intelligence OR AI OR \"deep learning\" OR \"machine learning\") AND (\"early cancer detection\" OR \"cancer screening\") AND (AUC OR sensitivity OR specificity OR \"performance metrics\") AND (imaging OR genomics OR multimodal OR \"multi-modal\")"
+  },
+  {
+    "channel": "PubMed",
+    "query": "(artificial intelligence[Title/Abstract] OR deep learning[Title/Abstract] OR machine learning[Title/Abstract]) AND (early detection of cancer[MeSH] OR cancer screening[Title/Abstract] OR early cancer detection[Title/Abstract]) AND (AUC[Title/Abstract] OR sensitivity[Title/Abstract] OR specificity[Title/Abstract]) AND (imaging[Title/Abstract] OR genomics[Title/Abstract] OR multimodal[Title/Abstract])"
+  },
+  {
+    "channel": "arXiv",
+    "query": "all:artificial+intelligence+AND+all:cancer+detection+AND+all:AUC+AND+(all:imaging+OR+all:genomics+OR+all:multimodal)"
+  }
+]
