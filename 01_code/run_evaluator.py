@@ -69,7 +69,7 @@ def make_file_previews(files: dict[str, str]) -> str:
 
 
 def load_prompt(name: str) -> str:
-    prompt_path = Path(__file__).resolve().parent / "prompts" / name
+    prompt_path = Path(__file__).resolve().parent.parent / "02_prompts" / name
     return read_text(prompt_path)
 
 

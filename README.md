@@ -352,41 +352,41 @@ When the writer did cite a source, how often was it the correct source? Isolates
 
 ## How the Runner Works
 
-The evaluator is a single Python script (`run_evaluator.py`, ~1,060 lines) that orchestrates the entire pipeline. It uses `urllib` for HTTP requests (no external dependencies beyond the Python standard library) and loads prompt templates from external Markdown files.
+The evaluator is a single Python script (`01_code/run_evaluator.py`, ~1,060 lines) that orchestrates the entire pipeline. It uses `urllib` for HTTP requests (no external dependencies beyond the Python standard library) and loads prompt templates from external Markdown files.
 
 ### Step 0: Classify & Clean Inputs
 
 The runner receives a **folder** with all files from one SciSpace run. File names are not standardized — the runner infers which file is which.
 
 ```bash
-python3 run_evaluator.py ./evaluation_data/01_wearables_trial/
+python3 01_code/run_evaluator.py 03_outputs/run_1_wearables_deepseek/
 ```
 
 **File classification** uses a two-tier approach:
 1. **Canonical shortcut:** If the folder contains the exact canonical filenames (`user_query.txt`, `search_queries.txt`, `intermediate_report.md`, `final_report.md`), classification is skipped.
-2. **LLM classification:** Otherwise, the runner reads all files, generates previews (first 500 characters each), and sends them to the LLM judge using `prompts/00_classify_files.md` to identify which file is the user query, search log, intermediate report, and final report.
+2. **LLM classification:** Otherwise, the runner reads all files, generates previews (first 500 characters each), and sends them to the LLM judge using `02_prompts/00_classify_files.md` to identify which file is the user query, search log, intermediate report, and final report.
 3. **Heuristic fallback:** If the LLM returns invalid JSON, a rule-based classifier (`heuristic_classify_files()`) uses filename patterns and content markers (e.g., "Searched SciSpace", "## References") to assign roles.
 
 **Search query cleanup** also uses a two-tier approach:
 1. **Pre-cleaned JSON:** If a `search_queries.json` file exists with valid `{channel, query}` pairs, it is used directly.
-2. **LLM cleanup:** Otherwise, the raw search log (which includes emoji, paper counts, status messages like "🔍 Searching scholarly literature...") is sent to the LLM using `prompts/01_clean_search_queries.md`.
+2. **LLM cleanup:** Otherwise, the raw search log (which includes emoji, paper counts, status messages like "🔍 Searching scholarly literature...") is sent to the LLM using `02_prompts/01_clean_search_queries.md`.
 3. **Heuristic fallback:** If the LLM fails, `heuristic_clean_search_queries()` parses `"Searched <channel>"` blocks with regex.
 
 ### Step 1: Stage 1 Eval — Query Hallucination
 
 **LLM calls:**
-1. Extract atomic intents from user query → `prompts/02_extract_intents.md`
-2. Check search queries against intents → `prompts/03_stage1_intent_coverage.md`
+1. Extract atomic intents from user query → `02_prompts/02_extract_intents.md`
+2. Check search queries against intents → `02_prompts/03_stage1_intent_coverage.md`
 
 **Deterministic computation:** Count intents covered ÷ total intents → **Intent Coverage %**
 
 ### Step 2: Stage 2 Eval — Directional Faithfulness & Data Accuracy
 
 **LLM calls:**
-1. Check intermediate report against intents + detect drift → `prompts/04_stage2_directional.md`
+1. Check intermediate report against intents + detect drift → `02_prompts/04_stage2_directional.md`
 2. If a consolidated CSV with criteria columns is detected (`find_and_parse_consolidated_csv()`):
-   - Verify top 5 papers' criteria cells against abstracts → `prompts/05_verify_data_extraction.md`
-   - Verify top 10 report claims against table rows → `prompts/06_verify_synthesis_faithfulness.md`
+   - Verify top 5 papers' criteria cells against abstracts → `02_prompts/05_verify_data_extraction.md`
+   - Verify top 10 report claims against table rows → `02_prompts/06_verify_synthesis_faithfulness.md`
 
 **CSV detection:** The evaluator looks for CSV files containing columns matching at least 2 of: `"Study Design and Population"`, `"Key Findings on Adherence Accuracy or Outcomes"`, `"Limitations and Gaps"`. Column matching is case-insensitive with whitespace normalization.
 
@@ -395,8 +395,8 @@ python3 run_evaluator.py ./evaluation_data/01_wearables_trial/
 ### Step 3: Stage 3 Eval — Claim-Level Fact-Checking
 
 **LLM calls:**
-1. Split final report into atomic claims → `prompts/07_stage3_extract_claims.md`
-2. For each claim, judge against fetched source → `prompts/08_stage3_ground_claim.md`
+1. Split final report into atomic claims → `02_prompts/07_stage3_extract_claims.md`
+2. For each claim, judge against fetched source → `02_prompts/08_stage3_ground_claim.md`
 
 **Source retrieval pipeline:**
 1. Parse the `## References` section from the final report using regex to extract reference IDs, titles, DOIs, and URLs.
@@ -424,13 +424,11 @@ Every failure in the scorecard includes: **what the report said**, **what the so
 
 ```
 .
-├── run_evaluator.py                     ← The runner (~1,060 lines, zero external dependencies)
-├── .env.example                         ← Template for API configuration
-├── .gitignore
-├── README.md                            ← This file
-├── README_EVAL_WORKFLOW.md              ← Copy-paste prompt guide for evaluating new runs
-│
-├── prompts/                             ← LLM judge prompt templates (editable without touching code)
+├── 01_code/                             ← Code scripts and environment configurations
+│   ├── run_evaluator.py                 ← The runner (~1,060 lines, zero external dependencies)
+│   ├── .env.example                     ← Template for API configuration
+│   └── .env                             ← Local API configuration (gitignored)
+├── 02_prompts/                          ← LLM judge prompt templates (editable without touching code)
 │   ├── 00_classify_files.md             ← "Identify which file is which"
 │   ├── 01_clean_search_queries.md       ← "Extract channel + query pairs from messy log"
 │   ├── 02_extract_intents.md            ← "Extract atomic intents from user query"
@@ -442,37 +440,49 @@ Every failure in the scorecard includes: **what the report said**, **what the so
 │   ├── 08_stage3_ground_claim.md        ← "Is this claim supported by this source?"
 │   └── 09_prepare_input_folder.md       ← "Prepare canonical input folder from messy files"
 │
-└── evaluation_data/                     ← Evaluator trials and datasets (no nested inputs/outputs folders)
-    ├── 01_wearables_trial/              ← Trial 1: Wearables chronic disease report
-    │   ├── user_query.txt
-    │   ├── search_queries.txt
-    │   ├── search_queries.json
-    │   ├── intermediate_report.md
-    │   ├── final_report.md
-    │   ├── combined_wearable_health_chronic_disease.csv
-    │   ├── ... (other wearables CSV paper databases)
-    │   ├── scorecard_deepseek_flash.md  ← Scorecard generated by DeepSeek V4 Flash
-    │   ├── detailed_log_deepseek_flash.json
-    │   ├── scorecard_minimax.md        ← Scorecard generated by MiniMax
-    │   └── detailed_log_minimax.json
-    │
-    └── 02_cancer_detection_trial/       ← Trial 2: AI early cancer detection report
-        ├── user_query.txt
-        ├── search_queries.txt
-        ├── search_queries.json
-        ├── intermediate_report.md
-        ├── final_report.md
-        ├── combined_cancer_ai_detection_results.csv
-        ├── ... (other cancer CSV paper databases)
-        ├── scorecard_deepseek_flash.md  ← Scorecard generated by DeepSeek V4 Flash
-        └── detailed_log_deepseek_flash.json
+├── 03_outputs/                          ← Evaluator trials and runs
+│   ├── run_1_wearables_deepseek/        ← Trial 1: Wearables report scored by DeepSeek V4 Flash
+│   │   ├── user_query.txt
+│   │   ├── search_queries.txt
+│   │   ├── search_queries.json
+│   │   ├── intermediate_report.md
+│   │   ├── final_report.md
+│   │   ├── scorecard.md                 ← Output scorecard generated by the runner
+│   │   ├── detailed_log.json            ← Detailed JSON results log generated by the runner
+│   │   ├── combined_wearable_health_chronic_disease.csv
+│   │   └── ... (other wearables CSV paper databases)
+│   │
+│   ├── run_2_wearables_minimax/         ← Trial 2: Wearables report scored by MiniMax
+│   │   ├── user_query.txt
+│   │   ├── search_queries.txt
+│   │   ├── search_queries.json
+│   │   ├── intermediate_report.md
+│   │   ├── final_report.md
+│   │   ├── scorecard.md                 ← Output scorecard generated by the runner
+│   │   ├── detailed_log.json            ← Detailed JSON results log generated by the runner
+│   │   ├── combined_wearable_health_chronic_disease.csv
+│   │   └── ... (other wearables CSV paper databases)
+│   │
+│   └── run_3_cancer_detection/          ← Trial 3: AI early cancer detection report (DeepSeek)
+│       ├── user_query.txt
+│       ├── search_queries.txt
+│       ├── search_queries.json
+│       ├── intermediate_report.md
+│       ├── final_report.md
+│       ├── scorecard.md                 ← Output scorecard generated by the runner
+│       ├── detailed_log.json            ← Detailed JSON results log generated by the runner
+│       ├── combined_cancer_ai_detection_results.csv
+│       └── ... (other cancer CSV paper databases)
+│
+├── .gitignore
+└── README.md                            ← This file (contains all documentation and notes)
 ```
 
 ---
 
 ## Prompt Templates
 
-All evaluation logic is driven by **external prompt templates** stored as plain Markdown files in `prompts/`. This means a PM or researcher can edit the evaluation criteria without touching the Python runner code.
+All evaluation logic is driven by **external prompt templates** stored as plain Markdown files in `02_prompts/`. This means a PM or researcher can edit the evaluation criteria without touching the Python runner code.
 
 Each prompt file contains:
 - A clear instruction for the LLM judge
@@ -527,17 +537,20 @@ EVAL_API_KEY=sk-or-v1-...
 ### Running
 
 ```bash
-# Evaluate the wearables dataset (generates scorecard.md in the folder)
-python3 run_evaluator.py ./evaluation_data/01_wearables_trial/ --output ./evaluation_data/01_wearables_trial/
+# Evaluate the wearables DeepSeek run (writes scorecard.md and detailed_log.json to the folder)
+python3 01_code/run_evaluator.py 03_outputs/run_1_wearables_deepseek/ --output 03_outputs/run_1_wearables_deepseek/
 
-# Evaluate the cancer detection dataset (generates scorecard.md in the folder)
-python3 run_evaluator.py ./evaluation_data/02_cancer_detection_trial/ --output ./evaluation_data/02_cancer_detection_trial/
+# Evaluate the wearables MiniMax run
+python3 01_code/run_evaluator.py 03_outputs/run_2_wearables_minimax/ --output 03_outputs/run_2_wearables_minimax/
+
+# Evaluate the cancer detection run
+python3 01_code/run_evaluator.py 03_outputs/run_3_cancer_detection/ --output 03_outputs/run_3_cancer_detection/
 
 # Override/inject the user query from the command line
-python3 run_evaluator.py ./evaluation_data/01_wearables_trial/ --query "Create a report on wearable health devices..." --output ./evaluation_data/01_wearables_trial/
+python3 01_code/run_evaluator.py 03_outputs/run_1_wearables_deepseek/ --query "Create a report on wearable health devices..." --output 03_outputs/run_1_wearables_deepseek/
 ```
 
-*Note: For comparison and archiving, scorecard outputs can be renamed (e.g. to `scorecard_deepseek_flash.md` or `scorecard_minimax.md`). The CLI writes to `scorecard.md` by default.*
+*Note: The CLI writes to `scorecard.md` and `detailed_log.json` inside the specified output folder.*
 
 ### CLI Arguments
 
@@ -756,19 +769,19 @@ Every LLM call has a heuristic fallback for when the judge model returns invalid
 The evaluator was constructed systematically across four main engineering phases:
 
 1. **Phase 1: Prompts Engineering**:
-   Before writing python scripts, the core evaluation logic was written in plain markdown prompt templates in the `prompts/` directory. This isolates the evaluation rules from execution plumbing:
-   * [00_classify_files.md](file:///Users/office/Desktop/sci%20space/prompts/00_classify_files.md)
-   * [01_clean_search_queries.md](file:///Users/office/Desktop/sci%20space/prompts/01_clean_search_queries.md)
-   * [02_extract_intents.md](file:///Users/office/Desktop/sci%20space/prompts/02_extract_intents.md)
-   * [03_stage1_intent_coverage.md](file:///Users/office/Desktop/sci%20space/prompts/03_stage1_intent_coverage.md)
-   * [04_stage2_directional.md](file:///Users/office/Desktop/sci%20space/prompts/04_stage2_directional.md)
-   * [05_verify_data_extraction.md](file:///Users/office/Desktop/sci%20space/prompts/05_verify_data_extraction.md)
-   * [06_verify_synthesis_faithfulness.md](file:///Users/office/Desktop/sci%20space/prompts/06_verify_synthesis_faithfulness.md)
-   * [07_stage3_extract_claims.md](file:///Users/office/Desktop/sci%20space/prompts/07_stage3_extract_claims.md)
-   * [08_stage3_ground_claim.md](file:///Users/office/Desktop/sci%20space/prompts/08_stage3_ground_claim.md)
-   * [09_prepare_input_folder.md](file:///Users/office/Desktop/sci%20space/prompts/09_prepare_input_folder.md)
+   Before writing python scripts, the core evaluation logic was written in plain markdown prompt templates in the `02_prompts/` directory. This isolates the evaluation rules from execution plumbing:
+   * [00_classify_files.md](file:///Users/office/Desktop/sci%20space/02_prompts/00_classify_files.md)
+   * [01_clean_search_queries.md](file:///Users/office/Desktop/sci%20space/02_prompts/01_clean_search_queries.md)
+   * [02_extract_intents.md](file:///Users/office/Desktop/sci%20space/02_prompts/02_extract_intents.md)
+   * [03_stage1_intent_coverage.md](file:///Users/office/Desktop/sci%20space/02_prompts/03_stage1_intent_coverage.md)
+   * [04_stage2_directional.md](file:///Users/office/Desktop/sci%20space/02_prompts/04_stage2_directional.md)
+   * [05_verify_data_extraction.md](file:///Users/office/Desktop/sci%20space/02_prompts/05_verify_data_extraction.md)
+   * [06_verify_synthesis_faithfulness.md](file:///Users/office/Desktop/sci%20space/02_prompts/06_verify_synthesis_faithfulness.md)
+   * [07_stage3_extract_claims.md](file:///Users/office/Desktop/sci%20space/02_prompts/07_stage3_extract_claims.md)
+   * [08_stage3_ground_claim.md](file:///Users/office/Desktop/sci%20space/02_prompts/08_stage3_ground_claim.md)
+   * [09_prepare_input_folder.md](file:///Users/office/Desktop/sci%20space/02_prompts/09_prepare_input_folder.md)
 
-2. **Phase 2: Runner Core ([run_evaluator.py](file:///Users/office/Desktop/sci%20space/run_evaluator.py))**:
+2. **Phase 2: Runner Core ([run_evaluator.py](file:///Users/office/Desktop/sci%20space/01_code/run_evaluator.py))**:
    Built the command-line executor to orchestrate file classification, query cleanup, intent extraction, and Stage 1/2/3 judges. Added a thread pool (10 concurrent workers) for dynamic API caching/fetching and parallel claim grounding.
 3. **Phase 3: Dataset Dry-Runs**:
    Ran the runner against the wearables dataset and cancer dataset canonical inputs to calibrate NLI judge prompts and fix extraction edge cases.
@@ -825,14 +838,14 @@ Below is the slide-by-slide walkthrough notes detailing the motivation, design d
 #### Slide 11: The Input Contract (Directory Structure)
 * **Slide Content**: Standardized canonical inputs structure:
   ```text
-  evaluation_data/01_wearables_trial/
+  03_outputs/run_1_wearables_deepseek/
   ├── user_query.txt          <-- Original user query
   ├── search_queries.txt      <-- Raw log of channel searches
   ├── search_queries.json     <-- Pre-cleaned channel/query pairs
   ├── intermediate_report.md  <-- Insights report
   ├── final_report.md         <-- Final cited report
-  ├── scorecard_deepseek_flash.md <-- Scorecard generated by DeepSeek Flash
-  ├── detailed_log_deepseek_flash.json
+  ├── scorecard.md            <-- Output scorecard generated by the runner
+  ├── detailed_log.json       <-- Detailed JSON results log generated by the runner
   └── ... (local paper databases in CSV format)
   ```
 
@@ -870,6 +883,56 @@ Below is the slide-by-slide walkthrough notes detailing the motivation, design d
 
 #### Slide 16: Safety Gate Threshold Matrix
 * Establishes ship-ready criteria (Intent Coverage >=98%, Directional Alignment >=98%, Data Extraction >=95%, Synthesis Faithfulness >=95%, Claim Groundedness >=90%). Shows that neither pipeline is ready to ship, and recommends spreadsheet constraints and citation validation gates.
+
+---
+
+### Appendix C: SciSpace Evals Workflow
+
+Use this guide to quickly copy and paste formatting instructions into a coding agent when evaluating new SciSpace runs. This keeps all inputs and outputs organized under sequentially numbered run names under `03_outputs/` so nothing is ever overwritten.
+
+#### 📁 Workspace Directory Structure
+
+```text
+.
+├── 01_code/
+│   ├── run_evaluator.py
+│   └── .env.example
+├── 02_prompts/
+│   ├── 00_classify_files.md
+│   └── ...
+└── 03_outputs/
+    ├── run_1_wearables_deepseek/       <-- Formatted inputs & scorecard outputs side-by-side
+    └── run_2_wearables_minimax/
+```
+
+---
+
+#### 📝 Copy-Paste Prompt for your Coding Agent
+
+When you have a new messy folder from a SciSpace run, copy the prompt below, fill in the placeholder fields in brackets, and send it to your coding agent:
+
+```markdown
+I have a new messy SciSpace run folder that I want to evaluate. 
+Please prepare the folder and print the run command for me.
+
+##### 1. Inputs
+- Messy Source Folder: [INSERT_PATH_TO_MESSY_FOLDER] (e.g., raw_test_input/)
+- Described Run Name: [INSERT_RUN_NAME] (e.g., run_4_diabetes)
+
+##### 2. Instructions
+1. Create the formatted directory: 03_outputs/[INSERT_RUN_NAME]/
+2. Identify and copy the raw content into these canonical files in 03_outputs/[INSERT_RUN_NAME]/:
+   - user_query.txt
+   - search_queries.txt
+   - intermediate_report.md
+   - final_report.md
+3. Extract search queries from the raw log and write them to 03_outputs/[INSERT_RUN_NAME]/search_queries.json in this format:
+   [
+     { "channel": "SciSpace", "query": "exact query" }
+   ]
+4. Once completed, print the exact command I should run in my terminal to evaluate this folder:
+   python3 01_code/run_evaluator.py 03_outputs/[INSERT_RUN_NAME]/ --output 03_outputs/[INSERT_RUN_NAME]/
+```
 
 ---
 
