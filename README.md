@@ -936,6 +936,62 @@ Please prepare the folder and print the run command for me.
 
 ---
 
+## Detailed Findings Report
+
+This report presents a granular analysis of the hallucination evaluations performed on the SciSpace literature reviews. We evaluate two target domains: **Wearable Health Devices for Chronic Disease Management** (evaluated across two different configurations/models) and **AI-Based Early Cancer Detection Methods**.
+
+### 1. High-Level Metrics Comparison
+
+The following table summarizes the performance scores across the different evaluation runs and models:
+
+| Evaluation Metric | Run 1: Wearables (DeepSeek Flash) | Run 2: Wearables (MiniMax) | Run 3: Cancer Detection (DeepSeek Flash) |
+| :--- | :---: | :---: | :---: |
+| **Stage 1: Intent Coverage %** | **100.0%** (3/3) | **100.0%** (5/5) | *Skipped (missing logs)* |
+| **Stage 2a: Directional Alignment %** | **100.0%** (3/3) | **100.0%** (5/5) | *Skipped (missing report)* |
+| **Stage 2b: Data Extraction Accuracy %**| **53.3%** (8/15) | *Not Evaluated* | *Skipped (schema mismatch)* |
+| **Stage 2c: Synthesis Faithfulness %** | **70.0%** (7/10) | *Not Evaluated* | *Skipped (schema mismatch)* |
+| **Stage 3a: Overall Claim Reliability %** | **24.1%** (27/112) | **13.8%** (4/29) | **32.7%** (33/101) |
+| **Stage 3b: Cited Grounding Rate %** | **28.4%** (27/95) | **13.8%** (4/29) | **66.0%** (33/50) |
+
+---
+
+### 2. Deep Dive: Run 1 & 2 (Wearable Health Devices)
+
+The wearables dataset contains a rich set of intermediate data extraction tables and synthesized claims, making it the most exhaustive test of the evaluator's three-stage pipeline.
+
+#### Key Findings:
+1. **Perfect Intent Coverage & Directional Alignment (100%):** The runner verified that all user intents (evaluating adherence, sensor accuracy, and long-term health outcomes of wearables) were successfully targeted by SciSpace's database queries and addressed in the final text.
+2. **Poor Data Extraction Accuracy (53.3%):** The intermediate spreadsheet extraction table suffered from severe data corruption. The LLM extracted details not present in the paper abstracts:
+   * **Fabricated Conditions:** In the paper *"The use of wearable devices in chronic disease management..."*, the extracted cell stated that the paper focused on "COPD telehealth outcomes" and "Diabetes Mellitus (DM) with educational support". The source abstract only discussed chronic disease management generally, without mentioning these specific conditions.
+   * **Fabricated Limitations:** For the paper *"Wearable Tech and Chronic Disease Management..."*, the extractor fabricated limitations like "modest sample size", "self-reporting bias", and "integration challenges" which were completely absent from the paper's abstract.
+3. **Severe Cited Grounding Leakage (13.8% – 28.4%):** While the final report appears highly credible, checking its specific factual claims against the actual cited papers revealed massive rates of hallucination:
+   * **Statistics Fabrication:** The report stated that *"six factors explained 27% of the variance in adherence"* (citing a study of 184 axSpA patients). While the study did list six correlates, the specific "27% of variance" figure was fabricated.
+   * **Precision Contradictions:** The report claimed that a systematic review of *"31 studies (total n=2,512)"* found 16 positive and 15 null effects. The cited source actually stated that **30 articles** were included with **2,446 participants**, reporting **15 positive** and **15 null** effects.
+   * **Theoretical Extrapolations:** The report claimed wearables support behavior change *"through mechanisms described in self-regulation theory and the health belief model"*. The cited source discussed remote monitoring adherence but contained no mention of these theoretical models.
+
+---
+
+### 3. Deep Dive: Run 3 (AI-Based Early Cancer Detection)
+
+The cancer detection run did not utilize a structured intermediate table, meaning the pipeline skipped Stage 2 evaluation.
+
+#### Key Findings:
+1. **Skipped Intermediate Validation:** Due to a schema mismatch (the cancer trial's CSV database lacked wearables-specific columns like `Study Design and Population`), Stage 2b/2c spreadsheet auditing was skipped.
+2. **Higher Cited Grounding Rate (66.0%):** Interestingly, the final report's cited claims were significantly more faithful to their sources (66.0%) compared to the wearables report (28.4%). This confirms that **the intermediate table extraction step is the primary source of quality leakage** in the SciSpace writing pipeline; without a corrupted table to synthesize from, the final report grounded its citations much more reliably.
+3. **Factual Mismatches and Over-specifications:** Despite a higher grounding rate, 34% of cited claims still contained hallucinations:
+   * **Method Misattribution:** The report asserted that a *"CNN ensemble applied to prostate mpMRI achieved a median AUC of 0.88 and sensitivity of 86%"*. The cited source stated that *generic* "AI-based technologies" achieved these metrics, without specifying CNN ensembles or mpMRI.
+   * **Rounding Adjustments:** The report claimed an ML model achieved an AUC of **0.993**, whereas the source paper cited exactly **0.9929**.
+4. **Significant Citation Gap:** Out of 101 factual statements in the report, **51 claims were completely uncited**, leaving the report's evidence trail majorly incomplete.
+
+---
+
+### 4. Strategic Conclusions for System Design
+
+1. **The Intermediate Table Vulnerability:** In multi-stage synthesis pipelines, intermediate structured data (like CSV tables) represents a major bottleneck. LLMs struggle to maintain strict fidelity when compiling multiple papers into a table, and these errors amplify during final report synthesis.
+2. **Model Reasoning Constraints:** Flash models (like DeepSeek Flash and MiniMax) tend to over-synthesize and hallucinate theoretical frameworks to make reports sound academic. Implementing the evaluator with frontier reasoning models (e.g. Claude 3.5 Sonnet) is recommended to act as a robust safety gate before publication.
+
+---
+
 ## License
 
 This project was developed as part of a SciSpace evaluation task.
