@@ -136,7 +136,86 @@ Each surface catches something the other two cannot. A report can be factually g
 
 ---
 
-## Evaluation Architecture
+## Evaluation Methodology & System Design
+
+To evaluate the trustworthiness of SciSpace's AI report writing pipeline, we implement a multi-stage, reference-grounded hallucination evaluation methodology. Instead of evaluating the report as a single black box, we decompose the pipeline into discrete checkpoints to isolate query drift, extraction errors, synthesis failures, and claim-level hallucinations.
+
+### System Architecture Diagram
+
+```text
+               +-------------------------------------------------------+
+               |                     User Query                        |
+               +-------------------------------------------------------+
+                                   |                       |
+                  (Extract Atomic Intents)                 |
+                                   v                       v
+               +-----------------------+       +-----------------------+
+               |     Atomic Intents    |       |  Intermediate Outline |
+               +-----------------------+       +-----------------------+
+                    |              |                       |
+       (Semantic Intent Check)     |             (Directional check &
+                    |              |              Drift detection)
+                    v              |                       v
+  STAGE 1: Intent Coverage         |           STAGE 2a: Directional Alignment
+  ========================         |           ===============================
+  Checks generated queries         |           Checks if intermediate summary
+  against user intents.            |           addresses all intents without drift.
+                                   |
+                                   +-----------------------+
+                                                           |
+                                                           v
+  STAGE 2b: Data Extraction Accuracy           STAGE 2c: Synthesis Faithfulness
+  ==================================           ================================
+  Checks spreadsheet cell values               Checks if report claims match
+  against original paper abstracts.             consolidated spreadsheet rows.
+         |                                                 |
+         v (Cell Verification)                             v (Synthesis Verification)
+  [ Spreadsheet Table ] <--------------+------------------ [ Final Report ]
+                                       |
+                                       | (Extract Claims & DOIs)
+                                       v
+                               STAGE 3: Fact-Checking
+                               ======================
+                               Isolates and verifies claims against cited sources.
+                                       |
+                                       v
+                             [ Bibliography Parsing ]
+                                       |
+                                       +----> 1. Local CSV Cache Check (Fast)
+                                       +----> 2. CrossRef API (Fallback 1)
+                                       +----> 3. Semantic Scholar API (Fallback 2)
+                                       |
+                                       v
+                             [ NLI Semantic Judge ]
+                                       |
+                                       v
+                                +--------------+
+                                |  Scorecard   |
+                                +--------------+
+```
+
+### Core Methodology Walkthrough
+
+Our methodology checking is structured sequentially across three stages:
+
+1. **Intents Extraction & Search Validation (Stage 1)**:
+   * **Purpose**: Catch hallucinated or deficient search pathways before retrieval starts.
+   * **Method**: The evaluator extracts atomic user intents from the research query. It then maps each channel's generated queries to these intents. It uses semantic logic rather than keyword checking to accommodate channel-specific syntax differences (e.g. natural language queries on SciSpace vs. boolean queries on Google Scholar).
+
+2. **Mid-Pipeline Synthesis Validation (Stage 2)**:
+   * **Stage 2a (Directional Alignment)**: Compares the intermediate report sections to the user's intents. It scores each intent (1.0 for fully addressed, 0.5 for partially addressed, 0.0 for missing) and applies a **Drift Penalty** (-0.2 per topic) for any major unrelated topics introduced.
+   * **Stage 2b (Data Extraction Accuracy)**: Compares spreadsheet cells against paper abstracts to catch data collection errors before writing.
+   * **Stage 2c (Synthesis Faithfulness)**: Compares final report assertions to spreadsheet cells to ensure the writing model doesn't inject external information or exaggerate consensus.
+
+3. **Factual Grounding Gate (Stage 3)**:
+   * **Purpose**: Verify that every factual claim in the final report is backed by its cited source.
+   * **Method**:
+     1. The evaluator splits the final report into atomic factual assertions and records their inline citation IDs (`[1]`, `[5]`, etc.).
+     2. It extracts reference metadata (DOIs, titles) from the report's `## References` section.
+     3. For each claim, it retrieves the cited source text from a multi-tiered pipeline: checking the local CSV abstracts database first, and dynamically querying the CrossRef and Semantic Scholar APIs as fallbacks.
+     4. An NLI LLM judge classifies the claim against the source abstract as: **Supported**, **Unsupported**, **Contradicted**, or **Overstated** (alongside **Uncited** and **Not Verifiable** categories).
+
+---
 
 ### Stage 1: Query Hallucination (Intent Coverage)
 
@@ -280,7 +359,7 @@ The evaluator is a single Python script (`eval.py`, ~1,060 lines) that orchestra
 The runner receives a **folder** with all files from one SciSpace run. File names are not standardized — the runner infers which file is which.
 
 ```bash
-python3 eval.py ./trials/run1_wearables/raw_export/
+python3 eval.py ./trials/run1_wearables/inputs/
 ```
 
 **File classification** uses a two-tier approach:
@@ -363,26 +442,16 @@ Every failure in the scorecard includes: **what the report said**, **what the so
 │   ├── verify_data_extraction.md        ← "Is this spreadsheet cell accurate to the paper abstract?"
 │   └── verify_synthesis_faithfulness.md ← "Is this report claim faithful to the spreadsheet table?"
 │
-├── notes/                               ← Developer design notes and presentations
-│   ├── 01_understanding.md              ← Process analysis of SciSpace reporting
-│   ├── 02_eval_design.md                ← Mathematical design of the 3 evaluation stages
-│   ├── 03_cli_sketch.md                 ← Technical design of the evaluator command-line flow
-│   ├── 04_presentation.md               ← Pre-release presentation draft
-│   ├── 05_plan.md                       ← Workspace roadmap and implementation phases
-│   └── 06_final_presentation.md         ← Final slide-by-slide project presentation
-│
-└── trials/                              ← Consolidated trial runs (inputs, outputs, raw files)
+└── trials/                              ← Consolidated trial runs (no duplicate files)
     ├── run1_wearables/                  ← Trial 1: Wearables health devices
-    │   ├── raw_export/                  ← Messy original exported folder from SciSpace
-    │   ├── evaluator_inputs/            ← Canonical inputs (user_query.txt, final_report.md, etc.)
-    │   └── evaluator_outputs/
+    │   ├── inputs/                      ← Canonical inputs (user_query.txt, CSV paper cache, etc.)
+    │   └── outputs/
     │       ├── deepseek_flash/          ← scorecard.md + detailed_log.json from DeepSeek Flash
     │       └── minimax/                 ← scorecard.md + detailed_log.json from MiniMax
     │
     └── run2_cancer_detection/           ← Trial 2: AI early cancer detection
-        ├── raw_export/                  ← Messy original exported folder from SciSpace
-        ├── evaluator_inputs/            ← Canonical inputs (including source CSV abstracts)
-        └── evaluator_outputs/
+        ├── inputs/                      ← Canonical inputs (including source CSV abstracts)
+        └── outputs/
             └── deepseek_flash/          ← scorecard.md + detailed_log.json from DeepSeek Flash
 ```
 
@@ -445,14 +514,14 @@ EVAL_API_KEY=sk-or-v1-...
 ### Running
 
 ```bash
-# Evaluate the wearables dataset (using raw messy export folder)
-python3 eval.py ./trials/run1_wearables/raw_export/ --output ./trials/run1_wearables/evaluator_outputs/deepseek_flash/
+# Evaluate the wearables dataset (using clean canonical inputs)
+python3 eval.py ./trials/run1_wearables/inputs/ --output ./trials/run1_wearables/outputs/deepseek_flash/
 
 # Evaluate the cancer detection dataset (using clean canonical inputs)
-python3 eval.py ./trials/run2_cancer_detection/evaluator_inputs/ --output ./trials/run2_cancer_detection/evaluator_outputs/deepseek_flash/
+python3 eval.py ./trials/run2_cancer_detection/inputs/ --output ./trials/run2_cancer_detection/outputs/deepseek_flash/
 
 # Override/inject the user query from the command line
-python3 eval.py ./trials/run1_wearables/raw_export/ --query "Create a report on wearable health devices..." --output ./trials/run1_wearables/evaluator_outputs/deepseek_flash/
+python3 eval.py ./trials/run1_wearables/inputs/ --query "Create a report on wearable health devices..." --output ./trials/run1_wearables/outputs/deepseek_flash/
 ```
 
 ### CLI Arguments
@@ -662,6 +731,128 @@ The runner uses only Python's standard library (`urllib`, `json`, `argparse`, `r
 
 ### Why heuristic fallbacks?
 Every LLM call has a heuristic fallback for when the judge model returns invalid JSON or fails. This ensures the evaluator degrades gracefully rather than crashing — critical for batch evaluation runs.
+
+---
+
+## Appendix: Consolidations & Slide Walkthroughs
+
+### Appendix A: Implementation Roadmap & Development Phases
+
+The evaluator was constructed systematically across four main engineering phases:
+
+1. **Phase 1: Prompts Engineering**:
+   Before writing python scripts, the core evaluation logic was written in plain markdown prompt templates in the `prompts/` directory. This isolates the evaluation rules from execution plumbing:
+   * [classify_files.md](file:///Users/office/Desktop/sci%20space/prompts/classify_files.md)
+   * [clean_search_queries.md](file:///Users/office/Desktop/sci%20space/prompts/clean_search_queries.md)
+   * [extract_intents.md](file:///Users/office/Desktop/sci%20space/prompts/extract_intents.md)
+   * [stage1_intent_coverage.md](file:///Users/office/Desktop/sci%20space/prompts/stage1_intent_coverage.md)
+   * [stage2_directional.md](file:///Users/office/Desktop/sci%20space/prompts/stage2_directional.md)
+   * [stage3_extract_claims.md](file:///Users/office/Desktop/sci%20space/prompts/stage3_extract_claims.md)
+   * [stage3_ground_claim.md](file:///Users/office/Desktop/sci%20space/prompts/stage3_ground_claim.md)
+   * [verify_data_extraction.md](file:///Users/office/Desktop/sci%20space/prompts/verify_data_extraction.md)
+   * [verify_synthesis_faithfulness.md](file:///Users/office/Desktop/sci%20space/prompts/verify_synthesis_faithfulness.md)
+
+2. **Phase 2: Runner Core ([eval.py](file:///Users/office/Desktop/sci%20space/eval.py))**:
+   Built the command-line executor to orchestrate file classification, query cleanup, intent extraction, and Stage 1/2/3 judges. Added a thread pool (10 concurrent workers) for dynamic API caching/fetching and parallel claim grounding.
+3. **Phase 3: Dataset Dry-Runs**:
+   Ran the runner against the wearables dataset and cancer dataset canonical inputs to calibrate NLI judge prompts and fix extraction edge cases.
+4. **Phase 4: Robustness Tuning**:
+   Added model configuration settings, automated cache database ingestion, and graceful heuristic fallbacks for LLM parsing errors.
+
+---
+
+### Appendix B: Slide-by-Slide Project Presentation Walkthrough
+
+Below is the slide-by-slide walkthrough notes detailing the motivation, design decisions, results, and recommendation pitch of this project:
+
+#### Slide 1: The Hook
+* **Slide Content**: *"Just feed the report to a stronger LLM and ask whether it hallucinated." Sounds simple. It is the wrong first answer.*
+* **Concept**: An LLM reading a polished research report cannot distinguish between a correctly cited claim and one that sounds correct but is entirely fabricated. Hallucination evaluation requires reference-grounded checking against the source literature.
+
+#### Slide 2: Citations and Document Grounding
+* **Slide Content**: *Citations look correct, but is the claim actually supported?*
+* **Concept**: Factual grounding requires checking assertions directly against the cited source texts, not just checking that the citation exists.
+
+#### Slide 3: Directional Faithfulness
+* **Slide Content**: *The source is real, but did we drift from user intent?*
+* **Concept**: A report can be factually true (fully grounded) and still fail if it deleted user-requested constraints or drifted into unrelated areas.
+
+#### Slide 4: Retrieval Path Coverage
+* **Slide Content**: *Did we query the wrong thing at the start?*
+* **Concept**: The query generator must target all aspects of the user request across academic database syntaxes, or the retrieval path is flawed before synthesis begins.
+
+#### Slide 5: The Three Layers
+* **Slide Content**: 
+  - *Top layer: Query Hallucination (Asking correct question)*
+  - *Middle layer: Directional Alignment & Data Accuracy (Retrieving correct data)*
+  - *Bottom layer: Claim Grounding (Factual correctness)*
+
+#### Slide 7: Stage 1 - Query Hallucination
+* **Slide Content**: *Intent Coverage Rate (IC) = Intents covered / Total intents.*
+* **Concept**: Evaluates database queries semantically, accommodating channel-specific query styles (semantic questions, boolean queries, MeSH terms).
+
+#### Slide 8: Stage 2 Evaluation Matrix
+* **Slide Content**: Mid-Pipeline assessment broken into three matrices:
+  1. **Directional Alignment Rate (DA)**: Intent discussion coverage in outline (penalized by 0.2 per drift topic).
+  2. **Data Extraction Accuracy (EA)**: Verification of spreadsheet database cell veracity against original abstracts.
+  3. **Synthesis Faithfulness (SF)**: Checks if report claims match spreadsheet rows (catching general-knowledge leaks).
+
+#### Slide 9: Stage 3 Evaluation Matrix
+* **Slide Content**: Fact-checking report claims against source abstracts. Claims are classified as: **Supported**, **Unsupported**, **Contradicted**, **Overstated**, **Uncited**, or **Not Verifiable**.
+* **Metrics**:
+  - *Claim Reliability Rate (CR)*: Supported claims / Total claims.
+  - *Cited Grounding Rate (CGR)*: Supported claims / Cited verifiable claims.
+
+#### Slide 10: Static vs. Semantic Verification
+* **Slide Content**: Deterministic check scripts (citation brackets, reference links, DOI formats) handle structure, while semantic judges handle text grounding.
+
+#### Slide 11: The Input Contract (Directory Structure)
+* **Slide Content**: Standardized canonical inputs structure:
+  ```text
+  trials/run1_wearables/
+  └── inputs/
+      ├── user_query.txt          <-- Original user query
+      ├── search_queries.txt      <-- Raw log of channel searches
+      ├── search_queries.json     <-- Pre-cleaned channel/query pairs
+      ├── intermediate_report.md  <-- Insights report
+      ├── final_report.md         <-- Final cited report
+      └── ... (local paper databases in CSV format)
+  ```
+
+#### Slide 12: Technical Metrics Dictionary & Calculations
+* Decomposes the calculations:
+  - `IC = Covered Intents / Total Intents`
+  - `DA = (Sum of Intent Scores - Drift Penalties) / Total Intents`
+  - `EA = Supported Cells / Total Scored Cells`
+  - `SF = Faithful Claims / Checked Claims`
+  - `CR = Supported Claims / Total Extracted Claims`
+  - `CGR = Supported Claims / (Total Scored - Uncited)`
+
+#### Slide 13: Trial Run 1 Results (Wearables for Chronic Disease)
+* **User Query**: *"Create a report on wearable health devices for chronic disease management, focusing on adherence, accuracy, and long-term outcomes."*
+* **Metrics**: Intent Coverage: 100%, Directional Alignment: 100%, Data Extraction: 53.3%, Synthesis Faithfulness: 70%, Claim Reliability: 24.1%, Cited Grounding Rate: 28.4%.
+
+#### Slide 13b: Trial Run 2 Results (AI-Based Early Cancer Detection)
+* **User Query**: *"Create a report on AI-based early cancer detection methods, comparing performance across imaging, genomics, and multimodal approaches using metrics like AUC, sensitivity, and specificity."*
+* **Metrics**: Intent Coverage: 40.0%, Directional Alignment: 100.0%, Data Extraction: Skipped (Schema mismatch), Synthesis Faithfulness: Skipped (Schema mismatch), Claim Reliability: 32.7%, Cited Grounding Rate: 66.0%.
+
+#### Slide 13c: The Cascading Quality Leakage Comparison
+* Compares Wearables vs. Cancer. In Run 2 (Cancer), query coverage was lower (40%), but because the pipeline lacked a database extraction step to corrupt details, final cited grounding (66.0%) was higher than Run 1 (28.4%), proving that intermediate data extraction is the primary pipeline vulnerability.
+
+#### Slide 13d: Concrete Case Studies
+* Documented instances of extraction mismatches, synthesis consensus fabrication, rounding precision errors (0.9929 vs. 0.993), and topical extrapolation.
+
+#### Slide 14: Model Choice & Cost-vs-Accuracy Tradeoffs
+* Flash models (DeepSeek, Gemini) are excellent for cheap development loops, but production evaluations must use high-reasoning frontier models (Sonnet 3.5, GPT-4o) to prevent false grounding judgments.
+
+#### Slide 15: Remaining Evaluation Gaps
+* Details unimplemented parameters: step 2 deduplication audit, full-text body PDF validation, discrete citation-pair audits, and synthesis conflict resolutions.
+
+#### Slide 15b: Synthesis Conflicts & H-Index Prioritization
+* Explains consensus auditing and proposals to weight cited source validity by author reputation (H-Index, citations) and study quality (RCT vs. observational).
+
+#### Slide 16: Safety Gate Threshold Matrix
+* Establishes ship-ready criteria (Intent Coverage >=98%, Directional Alignment >=98%, Data Extraction >=95%, Synthesis Faithfulness >=95%, Claim Groundedness >=90%). Shows that neither pipeline is ready to ship, and recommends spreadsheet constraints and citation validation gates.
 
 ---
 
