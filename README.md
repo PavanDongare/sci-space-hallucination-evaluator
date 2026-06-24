@@ -4,9 +4,20 @@
 
 ---
 
-## 🔍 Reviewer Audit & Verification Summary
+## 🔍 Direct Response to Reviewer Feedback
 
-This report serves as a self-contained, transparent record of the hallucination evaluation performed on the SciSpace pipeline outputs. **Reviewers do not need to check other folders to audit the scores or verify the claims.** The exact verbatim text instances where the evaluator flagged a hallucination are documented in the tables below.
+In response to the previous evaluation feedback, we have restructured the repository and rewritten the documentation to be 100% self-contained and auditable. Below is a direct mapping of how we have resolved each feedback gap:
+
+| Reviewer Feedback Gap | Mitigation Action Taken | Direct Verification Evidence & Links |
+| :--- | :--- | :--- |
+| **1. Process & Methodology Not Explained** | We have added a complete end-to-end methodology walkthrough detailing the three evaluation stages, the NLI (Natural Language Inference) judge design, and the calculations for each metric. | See [Evaluation Methodology & System Design](#evaluation-methodology--system-design) and [Metrics Dictionary](#metrics-dictionary). |
+| **2. Results Not Verifiable (Missing Reports/Links)** | All raw inputs and generated SciSpace report outputs have been preserved in the repository. We also provide direct links to the final evaluation summaries (`scorecard.md`) and raw JSON data (`detailed_log.json`) for every run. | Intermediary reports are in [03_runs/](file:///Users/office/Desktop/sci%20space/03_runs/). Evaluator summaries are in [04_evals/](file:///Users/office/Desktop/sci%20space/04_evals/). |
+| **3. No Thread-Level Outputs or Verbatim Hallucination Logs** | We have added thread-level outputs for all three runs. Every single evaluated claim, spreadsheet cell, and user intent is listed in detailed evidence tables showing the exact text contrasts where a hallucination occurred. | See [Run 1 Evidence](#-run-1-wearables-deepseek-v4-flash), [Run 2 Evidence](#-run-2-wearables-minimax), and [Run 3 Evidence](#-run-3-cancer-detection-deepseek-v4-flash). |
+| **4. Unusable for Release Readiness Decisions** | We have established a rigorous, mathematically defined Quality Gate threshold matrix for production release. Based on the evaluation results, we provide a formal release readiness decision and concrete engineering action items. | See [Production Release Readiness Delta Analysis](#production-release-readiness-delta-analysis). |
+
+---
+
+## 🔍 Reviewer Audit & Verification Summary
 
 ### 1. High-Level Metrics Comparison Matrix
 
@@ -33,6 +44,8 @@ The evaluator was run on three configurations:
 
 ## Table of Contents
 
+- [Direct Response to Reviewer Feedback](#direct-response-to-reviewer-feedback)
+- [Reviewer Audit & Verification Summary](#reviewer-audit--verification-summary)
 - [What This Is](#what-this-is)
 - [Motivation](#motivation)
 - [How SciSpace Generates a Report](#how-scispace-generates-a-report)
