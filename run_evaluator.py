@@ -243,7 +243,7 @@ def classify_files(files: dict[str, str], cli_query: str | None) -> dict[str, st
         synthetic = dict(files)
         synthetic["__cli_query__.txt"] = cli_query
         files = synthetic
-    prompt = render_prompt("classify_files.md", file_previews=make_file_previews(files))
+    prompt = render_prompt("00_classify_files.md", file_previews=make_file_previews(files))
     result = ask_json(prompt, {})
     if not isinstance(result, dict):
         result = {}
@@ -273,7 +273,7 @@ def get_content(files: dict[str, str], classification: dict[str, str | None], ro
 
 
 def clean_search_queries(raw_log: str) -> list[dict[str, str]]:
-    result = ask_json(render_prompt("clean_search_queries.md", raw_log=raw_log), [])
+    result = ask_json(render_prompt("01_clean_search_queries.md", raw_log=raw_log), [])
     if isinstance(result, list) and result:
         return result
     return heuristic_clean_search_queries(raw_log)
@@ -323,13 +323,13 @@ def heuristic_clean_search_queries(raw_log: str) -> list[dict[str, str]]:
 
 
 def extract_intents(query: str) -> list[dict[str, str]]:
-    result = ask_json(render_prompt("extract_intents.md", query=query), [])
+    result = ask_json(render_prompt("02_extract_intents.md", query=query), [])
     return result if isinstance(result, list) else []
 
 
 def stage1_coverage(intents: list[dict[str, str]], search_queries: list[dict[str, str]]) -> dict[str, object]:
     result = ask_json(
-        render_prompt("stage1_intent_coverage.md", intents=intents, search_queries=search_queries),
+        render_prompt("03_stage1_intent_coverage.md", intents=intents, search_queries=search_queries),
         {"intents": []},
     )
     return result if isinstance(result, dict) else {"intents": []}
@@ -337,14 +337,14 @@ def stage1_coverage(intents: list[dict[str, str]], search_queries: list[dict[str
 
 def stage2_directional(intents: list[dict[str, str]], report_text: str) -> dict[str, object]:
     result = ask_json(
-        render_prompt("stage2_directional.md", intents=intents, report_text=report_text),
+        render_prompt("04_stage2_directional.md", intents=intents, report_text=report_text),
         {"intents": [], "drift": []},
     )
     return result if isinstance(result, dict) else {"intents": [], "drift": []}
 
 
 def stage3_extract_claims(report_text: str) -> list[dict[str, object]]:
-    result = ask_json(render_prompt("stage3_extract_claims.md", report_text=report_text), [])
+    result = ask_json(render_prompt("07_stage3_extract_claims.md", report_text=report_text), [])
     return result if isinstance(result, list) else []
 
 
@@ -500,7 +500,7 @@ def evaluate_data_extraction(rows: list[dict[str, str]]) -> dict[str, object]:
                 continue
             total += 1
             prompt = render_prompt(
-                "verify_data_extraction.md",
+                "05_verify_data_extraction.md",
                 criteria_name=col,
                 cell_value=cell_value,
                 paper_title=paper_title,
@@ -553,7 +553,7 @@ def evaluate_synthesis_faithfulness(claims: list[dict[str, object]], rows: list[
             continue
         total += 1
         prompt = render_prompt(
-            "verify_synthesis_faithfulness.md",
+            "06_verify_synthesis_faithfulness.md",
             claim_text=claim_text,
             table_rows=table_rows_text
         )
@@ -634,7 +634,7 @@ def ground_claim(claim: dict[str, object], refs: dict[int, dict[str, str]], cach
         }
     result = ask_json(
         render_prompt(
-            "stage3_ground_claim.md",
+            "08_stage3_ground_claim.md",
             claim_text=str(claim.get("claim_text", "")),
             citation_ids=citation_ids,
             paper_content=source_text[:12_000],

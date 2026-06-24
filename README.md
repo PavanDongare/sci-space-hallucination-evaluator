@@ -364,29 +364,29 @@ python3 run_evaluator.py ./evaluation_data/01_wearables_trial/
 
 **File classification** uses a two-tier approach:
 1. **Canonical shortcut:** If the folder contains the exact canonical filenames (`user_query.txt`, `search_queries.txt`, `intermediate_report.md`, `final_report.md`), classification is skipped.
-2. **LLM classification:** Otherwise, the runner reads all files, generates previews (first 500 characters each), and sends them to the LLM judge using `prompts/classify_files.md` to identify which file is the user query, search log, intermediate report, and final report.
+2. **LLM classification:** Otherwise, the runner reads all files, generates previews (first 500 characters each), and sends them to the LLM judge using `prompts/00_classify_files.md` to identify which file is the user query, search log, intermediate report, and final report.
 3. **Heuristic fallback:** If the LLM returns invalid JSON, a rule-based classifier (`heuristic_classify_files()`) uses filename patterns and content markers (e.g., "Searched SciSpace", "## References") to assign roles.
 
 **Search query cleanup** also uses a two-tier approach:
 1. **Pre-cleaned JSON:** If a `search_queries.json` file exists with valid `{channel, query}` pairs, it is used directly.
-2. **LLM cleanup:** Otherwise, the raw search log (which includes emoji, paper counts, status messages like "🔍 Searching scholarly literature...") is sent to the LLM using `prompts/clean_search_queries.md`.
+2. **LLM cleanup:** Otherwise, the raw search log (which includes emoji, paper counts, status messages like "🔍 Searching scholarly literature...") is sent to the LLM using `prompts/01_clean_search_queries.md`.
 3. **Heuristic fallback:** If the LLM fails, `heuristic_clean_search_queries()` parses `"Searched <channel>"` blocks with regex.
 
 ### Step 1: Stage 1 Eval — Query Hallucination
 
 **LLM calls:**
-1. Extract atomic intents from user query → `prompts/extract_intents.md`
-2. Check search queries against intents → `prompts/stage1_intent_coverage.md`
+1. Extract atomic intents from user query → `prompts/02_extract_intents.md`
+2. Check search queries against intents → `prompts/03_stage1_intent_coverage.md`
 
 **Deterministic computation:** Count intents covered ÷ total intents → **Intent Coverage %**
 
 ### Step 2: Stage 2 Eval — Directional Faithfulness & Data Accuracy
 
 **LLM calls:**
-1. Check intermediate report against intents + detect drift → `prompts/stage2_directional.md`
+1. Check intermediate report against intents + detect drift → `prompts/04_stage2_directional.md`
 2. If a consolidated CSV with criteria columns is detected (`find_and_parse_consolidated_csv()`):
-   - Verify top 5 papers' criteria cells against abstracts → `prompts/verify_data_extraction.md`
-   - Verify top 10 report claims against table rows → `prompts/verify_synthesis_faithfulness.md`
+   - Verify top 5 papers' criteria cells against abstracts → `prompts/05_verify_data_extraction.md`
+   - Verify top 10 report claims against table rows → `prompts/06_verify_synthesis_faithfulness.md`
 
 **CSV detection:** The evaluator looks for CSV files containing columns matching at least 2 of: `"Study Design and Population"`, `"Key Findings on Adherence Accuracy or Outcomes"`, `"Limitations and Gaps"`. Column matching is case-insensitive with whitespace normalization.
 
@@ -395,8 +395,8 @@ python3 run_evaluator.py ./evaluation_data/01_wearables_trial/
 ### Step 3: Stage 3 Eval — Claim-Level Fact-Checking
 
 **LLM calls:**
-1. Split final report into atomic claims → `prompts/stage3_extract_claims.md`
-2. For each claim, judge against fetched source → `prompts/stage3_ground_claim.md`
+1. Split final report into atomic claims → `prompts/07_stage3_extract_claims.md`
+2. For each claim, judge against fetched source → `prompts/08_stage3_ground_claim.md`
 
 **Source retrieval pipeline:**
 1. Parse the `## References` section from the final report using regex to extract reference IDs, titles, DOIs, and URLs.
@@ -424,23 +424,23 @@ Every failure in the scorecard includes: **what the report said**, **what the so
 
 ```
 .
-├── eval.py                              ← The runner (~1,060 lines, zero external dependencies)
+├── run_evaluator.py                     ← The runner (~1,060 lines, zero external dependencies)
 ├── .env.example                         ← Template for API configuration
 ├── .gitignore
 ├── README.md                            ← This file
 ├── README_EVAL_WORKFLOW.md              ← Copy-paste prompt guide for evaluating new runs
 │
 ├── prompts/                             ← LLM judge prompt templates (editable without touching code)
-│   ├── classify_files.md                ← "Identify which file is which"
-│   ├── clean_search_queries.md          ← "Extract channel + query pairs from messy log"
-│   ├── extract_intents.md               ← "Extract atomic intents from user query"
-│   ├── prepare_input_folder.md          ← "Prepare canonical input folder from messy files"
-│   ├── stage1_intent_coverage.md        ← "Which intents does this search query cover?"
-│   ├── stage2_directional.md            ← "Does this report align with these intents?"
-│   ├── stage3_extract_claims.md         ← "Split report into atomic claims with citation IDs"
-│   ├── stage3_ground_claim.md           ← "Is this claim supported by this source?"
-│   ├── verify_data_extraction.md        ← "Is this spreadsheet cell accurate to the paper abstract?"
-│   └── verify_synthesis_faithfulness.md ← "Is this report claim faithful to the spreadsheet table?"
+│   ├── 00_classify_files.md             ← "Identify which file is which"
+│   ├── 01_clean_search_queries.md       ← "Extract channel + query pairs from messy log"
+│   ├── 02_extract_intents.md            ← "Extract atomic intents from user query"
+│   ├── 03_stage1_intent_coverage.md     ← "Which intents does this search query cover?"
+│   ├── 04_stage2_directional.md         ← "Does this report align with these intents?"
+│   ├── 05_verify_data_extraction.md     ← "Is this spreadsheet cell accurate to the paper abstract?"
+│   ├── 06_verify_synthesis_faithfulness.md ← "Is this report claim faithful to the spreadsheet table?"
+│   ├── 07_stage3_extract_claims.md      ← "Split report into atomic claims with citation IDs"
+│   ├── 08_stage3_ground_claim.md        ← "Is this claim supported by this source?"
+│   └── 09_prepare_input_folder.md       ← "Prepare canonical input folder from messy files"
 │
 └── evaluation_data/                     ← Evaluator trials and datasets (no nested inputs/outputs folders)
     ├── 01_wearables_trial/              ← Trial 1: Wearables chronic disease report
@@ -481,16 +481,16 @@ Each prompt file contains:
 
 | Prompt File | Purpose | Template Variables |
 |---|---|---|
-| `classify_files.md` | Identify which input file serves which role | `{file_previews}` |
-| `clean_search_queries.md` | Extract clean channel+query pairs from messy log | `{raw_log}` |
-| `extract_intents.md` | Extract atomic user intents from research query | `{query}` |
-| `prepare_input_folder.md` | Prepare canonical folder from messy SciSpace export | *(used for folder preparation workflow)* |
-| `stage1_intent_coverage.md` | Check if search queries cover each user intent | `{intents}`, `{search_queries}` |
-| `stage2_directional.md` | Check if intermediate report aligns with intents | `{intents}`, `{report_text}` |
-| `stage3_extract_claims.md` | Split final report into atomic factual claims | `{report_text}` |
-| `stage3_ground_claim.md` | Judge if a claim is grounded in its cited source | `{claim_text}`, `{citation_ids}`, `{paper_content}` |
-| `verify_data_extraction.md` | Verify spreadsheet cell accuracy vs. paper abstract | `{criteria_name}`, `{cell_value}`, `{paper_title}`, `{paper_abstract}` |
-| `verify_synthesis_faithfulness.md` | Verify report claim fidelity vs. spreadsheet table | `{claim_text}`, `{table_rows}` |
+| `00_classify_files.md` | Identify which input file serves which role | `{file_previews}` |
+| `01_clean_search_queries.md` | Extract clean channel+query pairs from messy log | `{raw_log}` |
+| `02_extract_intents.md` | Extract atomic user intents from research query | `{query}` |
+| `03_stage1_intent_coverage.md` | Check if search queries cover each user intent | `{intents}`, `{search_queries}` |
+| `04_stage2_directional.md` | Check if intermediate report aligns with intents | `{intents}`, `{report_text}` |
+| `05_verify_data_extraction.md` | Verify spreadsheet cell accuracy vs. paper abstract | `{criteria_name}`, `{cell_value}`, `{paper_title}`, `{paper_abstract}` |
+| `06_verify_synthesis_faithfulness.md` | Verify report claim fidelity vs. spreadsheet table | `{claim_text}`, `{table_rows}` |
+| `07_stage3_extract_claims.md` | Split final report into atomic factual claims | `{report_text}` |
+| `08_stage3_ground_claim.md` | Judge if a claim is grounded in its cited source | `{claim_text}`, `{citation_ids}`, `{paper_content}` |
+| `09_prepare_input_folder.md` | Prepare canonical folder from messy SciSpace export | *(used for folder preparation workflow)* |
 
 ---
 
@@ -757,15 +757,16 @@ The evaluator was constructed systematically across four main engineering phases
 
 1. **Phase 1: Prompts Engineering**:
    Before writing python scripts, the core evaluation logic was written in plain markdown prompt templates in the `prompts/` directory. This isolates the evaluation rules from execution plumbing:
-   * [classify_files.md](file:///Users/office/Desktop/sci%20space/prompts/classify_files.md)
-   * [clean_search_queries.md](file:///Users/office/Desktop/sci%20space/prompts/clean_search_queries.md)
-   * [extract_intents.md](file:///Users/office/Desktop/sci%20space/prompts/extract_intents.md)
-   * [stage1_intent_coverage.md](file:///Users/office/Desktop/sci%20space/prompts/stage1_intent_coverage.md)
-   * [stage2_directional.md](file:///Users/office/Desktop/sci%20space/prompts/stage2_directional.md)
-   * [stage3_extract_claims.md](file:///Users/office/Desktop/sci%20space/prompts/stage3_extract_claims.md)
-   * [stage3_ground_claim.md](file:///Users/office/Desktop/sci%20space/prompts/stage3_ground_claim.md)
-   * [verify_data_extraction.md](file:///Users/office/Desktop/sci%20space/prompts/verify_data_extraction.md)
-   * [verify_synthesis_faithfulness.md](file:///Users/office/Desktop/sci%20space/prompts/verify_synthesis_faithfulness.md)
+   * [00_classify_files.md](file:///Users/office/Desktop/sci%20space/prompts/00_classify_files.md)
+   * [01_clean_search_queries.md](file:///Users/office/Desktop/sci%20space/prompts/01_clean_search_queries.md)
+   * [02_extract_intents.md](file:///Users/office/Desktop/sci%20space/prompts/02_extract_intents.md)
+   * [03_stage1_intent_coverage.md](file:///Users/office/Desktop/sci%20space/prompts/03_stage1_intent_coverage.md)
+   * [04_stage2_directional.md](file:///Users/office/Desktop/sci%20space/prompts/04_stage2_directional.md)
+   * [05_verify_data_extraction.md](file:///Users/office/Desktop/sci%20space/prompts/05_verify_data_extraction.md)
+   * [06_verify_synthesis_faithfulness.md](file:///Users/office/Desktop/sci%20space/prompts/06_verify_synthesis_faithfulness.md)
+   * [07_stage3_extract_claims.md](file:///Users/office/Desktop/sci%20space/prompts/07_stage3_extract_claims.md)
+   * [08_stage3_ground_claim.md](file:///Users/office/Desktop/sci%20space/prompts/08_stage3_ground_claim.md)
+   * [09_prepare_input_folder.md](file:///Users/office/Desktop/sci%20space/prompts/09_prepare_input_folder.md)
 
 2. **Phase 2: Runner Core ([run_evaluator.py](file:///Users/office/Desktop/sci%20space/run_evaluator.py))**:
    Built the command-line executor to orchestrate file classification, query cleanup, intent extraction, and Stage 1/2/3 judges. Added a thread pool (10 concurrent workers) for dynamic API caching/fetching and parallel claim grounding.
