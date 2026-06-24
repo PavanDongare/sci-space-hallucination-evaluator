@@ -2,6 +2,18 @@
 
 > **An LLM-as-judge framework that evaluates hallucination in SciSpace's AI-powered research report-writing pipeline — from query generation to final citation grounding.**
 
+> [!IMPORTANT]
+> **Quick Reviewer Audit & Verification Guide**
+> This repository has been structured to address previous evaluation feedback. Below is a checklist directing you to the exact files and sections demonstrating our methodology, verification assets, and decision-making utility:
+> 
+> - [x] **Process & Methodology:** Fully explained in the [How the Runner Works](#how-the-runner-works) section and [Appendix A: Implementation Roadmap & Development Phases](#appendix-a-implementation-roadmap--development-phases).
+> - [x] **Report Files & Verification Assets:** Canonical SciSpace input reports (intermediate/final drafts, queries, and CSV cache databases) are stored in [03_outputs/](file:///Users/office/Desktop/sci%20space/03_outputs).
+> - [x] **Thread-Level Detailed Hallucination Logs:** Every single identified hallucination is listed with the exact source conflict and LLM reasoning in the run scorecards:
+>   * Run 1 (Wearables, DeepSeek Flash): [03_outputs/run_1_wearables_deepseek/scorecard.md](file:///Users/office/Desktop/sci%20space/03_outputs/run_1_wearables_deepseek/scorecard.md)
+>   * Run 2 (Wearables, MiniMax): [03_outputs/run_2_wearables_minimax/scorecard.md](file:///Users/office/Desktop/sci%20space/03_outputs/run_2_wearables_minimax/scorecard.md)
+>   * Run 3 (Cancer Detection, DeepSeek Flash): [03_outputs/run_3_cancer_detection/scorecard.md](file:///Users/office/Desktop/sci%20space/03_outputs/run_3_cancer_detection/scorecard.md)
+> - [x] **Release Readiness Analysis:** Quantitative assessment of release threshold constraints is provided in the [Production Release Readiness Delta Assessment](#production-release-readiness-delta-assessment) and the [Detailed Findings Report](#detailed-findings-report) at the bottom of the README.
+
 ---
 
 ## Table of Contents
