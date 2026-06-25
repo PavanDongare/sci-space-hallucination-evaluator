@@ -34,11 +34,51 @@ The evaluator should calculate an error or hallucination rate from that comparis
 | 7 | Generated columns inside `combined_*.csv` | Unified paper evidence registry, resolved by the row's paper identity | Identify all LLM-generated columns in `combined_*.csv`. Verify each generated cell against the resolved evidence for that same paper. | `Combined CSV Generated Column Hallucination = 1 - supported_generated_cells / total_generated_cells` |
 | 8 | Final report markdown, such as `final_report.md`, `*_report.md`, or `*_Report.md` | Cited paper full text first, then fallback evidence from the unified paper evidence registry | Extract unique factual claims from the final report. Resolve citations for each claim. Visit or fetch the cited links/full text. Verify whether each claim is supported, exaggerated, or hallucinated. | `Final Report Claim Hallucination = 1 - accurately_supported_unique_claims / total_unique_claims` |
 
-## Supporting Data Collection
+## Production Input Contract vs Assignment Data Prep
 
-Before combined CSV, intermediate markdown claim, or final report claim grounding, the runner must build one deduplicated paper evidence registry.
+In a production/internal SciSpace setting, the evaluator should not need to guess which files are LLM-generated and which files are static evidence.
 
-Input files:
+The product should pass structured inputs directly:
+
+```text
+evaluation_content: the LLM-generated artifact being evaluated
+evidence_content: the static/user/source evidence used for checking
+prompt: the evaluator prompt for that artifact type
+metric: the formula to compute
+```
+
+In that setup, the evaluator simply iterates over the matrix rows and calculates hallucination metrics. No agentic file cleanup is needed.
+
+The current assignment data is messier. It arrives as folders containing mixed artifacts:
+
+```text
+user_query.txt
+search_queries.txt / search_queries.json
+source CSVs
+combined CSVs
+intermediate markdown
+final report markdown
+planner files
+```
+
+For this assignment setting, a preprocessing adapter is needed to organize the folder into the matrix inputs:
+
+```text
+1. identify user-entered evidence, such as user_query.txt
+2. identify static source evidence, such as pubmed_*.csv, scholar_*.csv, arxiv_*.csv, scispace_*.csv
+3. identify LLM-generated evaluation artifacts, such as generated queries, combined_*.csv, *_insights.md, and final reports
+4. build the unified paper evidence registry
+```
+
+This adapter is not the core hallucination evaluator. It is only a data-preparation layer for messy exported runs.
+
+Production should avoid non-deterministic file cleanup where possible. If the internal system already knows which artifacts are LLM-generated, which are static evidence, and which prompt applies, those should be passed directly through APIs. That prevents cleanup mistakes from causing downstream evaluation errors.
+
+## Data Collation Before Evaluation
+
+Before running claim or generated-cell checks, the evaluator needs a unified paper evidence registry.
+
+Input files for the assignment data adapter:
 
 ```text
 pubmed_*.csv
@@ -83,6 +123,26 @@ Evidence priority for grounding:
 ```
 
 Title-only evidence should not support detailed factual claims. It can only support title-level claims. Otherwise, title-only evidence should be treated as unsupported or not verifiable.
+
+
+## Paper Evidence Registry Details
+
+Before combined CSV, intermediate markdown claim, or final report claim grounding, the runner must use the deduplicated paper evidence registry described above.
+
+The registry is used by these matrix rows:
+
+```text
+combined_*.csv generated column grounding
+intermediate markdown claim grounding
+final report claim grounding
+```
+
+Two implementation gaps from earlier designs are explicitly avoided here:
+
+```text
+1. Do not check only abstracts when full text or relevant excerpts are available.
+2. Do not assume one fixed combined CSV schema from one use case.
+```
 
 ## Generated Column Resolution For Combined CSV
 
